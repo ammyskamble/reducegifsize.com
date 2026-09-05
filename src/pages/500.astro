@@ -1,0 +1,109 @@
+---
+// src/pages/500.astro
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "시스템 오류 (500 Server Error) - Reduce GIF Size";
+const pageDescription = "일시적인 시스템 처리 오류가 발생했습니다. 잠시 후 다시 시도해 주시거나 홈으로 이동해 주세요.";
+---
+
+<!doctype html>
+<html lang="ko-KR" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+    <Header />
+
+    <main class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div class="max-w-xl w-full text-center space-y-8">
+        
+        <!-- Status Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-600 dark:text-amber-400 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span>500 · Internal Server Error</span>
+        </div>
+
+        <!-- Big Visual Number with Gradient -->
+        <div class="relative select-none">
+          <span class="text-8xl sm:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-amber-500 via-orange-500 to-muted/20">
+            500
+          </span>
+          <div class="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none blur-2xl bg-amber-500"></div>
+        </div>
+
+        <!-- Heading & Explanation -->
+        <div class="space-y-3">
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+            시스템 오류가 발생했습니다
+          </h1>
+          <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+            일시적인 처리 지연 또는 예기치 않은 오류가 발생했습니다. 브라우저 페이지를 새로고침하거나 잠시 후 다시 시도해 주세요.
+          </p>
+        </div>
+
+        <!-- Diagnostic Tip Box -->
+        <div class="p-4 rounded-2xl border border-border bg-card/60 text-left text-xs text-muted-foreground space-y-1.5 max-w-md mx-auto">
+          <div class="font-bold text-foreground flex items-center gap-2">
+            <span>💡 문제 해결 팁:</span>
+          </div>
+          <p class="leading-relaxed">
+            Reduce GIF Size의 연산은 브라우저 로컬 메모리(RAM)를 활용합니다. 수십 MB 이상의 대용량 움짤 처리 중 브라우저 탭 메모리가 초과된 경우, 현재 탭을 닫고 새 창에서 실행하시면 정상 작동합니다.
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <button
+            type="button"
+            onclick="window.location.reload()"
+            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-xs sm:text-sm hover:opacity-90 active:scale-[0.98] transition shadow-md shadow-primary/25 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>페이지 새로고침 (Reload)</span>
+          </button>
+
+          <a
+            href="/"
+            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-card border border-border text-foreground font-bold text-xs sm:text-sm hover:bg-muted/50 transition flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>홈으로 이동 (Go Home)</span>
+          </a>
+
+          <a
+            href="/contact"
+            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-card border border-border text-foreground font-bold text-xs sm:text-sm hover:bg-muted/50 transition flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <span>오류 제보 (Contact)</span>
+          </a>
+        </div>
+
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>
