@@ -1,0 +1,256 @@
+---
+// src/pages/contact.astro
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "문의하기 (Contact Us) - Reduce GIF Size";
+const pageDescription = "Reduce GIF Size 운영팀에 기능 제안, 오류 제보, 광고 제휴 및 일반 문의를 남겨주세요. 24~48시간 이내에 성실히 답변드립니다.";
+const canonicalUrl = "https://reducegifsize.com/contact";
+---
+
+<!doctype html>
+<html lang="ko-KR" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+    <Header />
+
+    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      
+      <!-- Breadcrumb & Header -->
+      <div class="space-y-4 text-center max-w-2xl mx-auto">
+        <nav class="flex items-center justify-center gap-2 text-xs text-muted-foreground font-medium" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-primary transition">홈</a>
+          <span>/</span>
+          <span class="text-foreground">문의하기</span>
+        </nav>
+
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold">
+          <span>Official Support & Inquiries</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+          문의하기 <br class="sm:hidden" />
+          <span class="text-xs sm:text-xl font-medium text-muted-foreground block sm:inline mt-1 sm:mt-0">
+            (Contact Us)
+          </span>
+        </h1>
+
+        <p class="text-sm text-muted-foreground leading-relaxed">
+          서비스 이용 중 불편한 점이 있으시거나, 기능 추가 제안, 제휴 및 광고 관련 문의가 있으시면 언제든지 메시지를 남겨주세요.
+        </p>
+      </div>
+
+      <!-- Quick Contact Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        
+        <!-- Card 1: Email -->
+        <div class="p-5 rounded-2xl border border-border bg-card shadow-xs space-y-2 text-center">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto text-base">
+            ✉️
+          </div>
+          <h2 class="font-bold text-sm text-foreground">공식 지원 이메일</h2>
+          <p class="text-xs text-muted-foreground">
+            모든 일반 문의 및 제휴 상담
+          </p>
+          <a href="mailto:contact@reducegifsize.com" class="text-xs font-mono font-bold text-primary hover:underline block pt-1">
+            contact@reducegifsize.com
+          </a>
+        </div>
+
+        <!-- Card 2: Response Time -->
+        <div class="p-5 rounded-2xl border border-border bg-card shadow-xs space-y-2 text-center">
+          <div class="w-10 h-10 rounded-xl bg-cyan-glow/15 text-cyan-glow flex items-center justify-center mx-auto text-base">
+            ⚡
+          </div>
+          <h2 class="font-bold text-sm text-foreground">답변 소요 시간</h2>
+          <p class="text-xs text-muted-foreground">
+            영업일 기준 24~48시간 이내
+          </p>
+          <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 block pt-1">
+            신속한 피드백 보장
+          </span>
+        </div>
+
+        <!-- Card 3: Business & Privacy -->
+        <div class="p-5 rounded-2xl border border-border bg-card shadow-xs space-y-2 text-center">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto text-base">
+            🛡️
+          </div>
+          <h2 class="font-bold text-sm text-foreground">개인정보 & 저작권</h2>
+          <p class="text-xs text-muted-foreground">
+            DMCA 신고 및 개인정보 문의
+          </p>
+          <a href="mailto:privacy@reducegifsize.com" class="text-xs font-mono font-bold text-primary hover:underline block pt-1">
+            privacy@reducegifsize.com
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Interactive Contact Form & FAQ Helper -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        
+        <!-- Form Column (3/5) -->
+        <div class="lg:col-span-3 p-6 sm:p-8 rounded-3xl border border-border bg-card shadow-sm space-y-6">
+          <div class="space-y-1">
+            <h2 class="text-lg font-bold text-foreground">
+              온라인 문의 양식 (Contact Form)
+            </h2>
+            <p class="text-xs text-muted-foreground">
+              아래 양식을 작성해주시면 담당자가 확인 후 회신해 드립니다.
+            </p>
+          </div>
+
+          <form id="contact-form" class="space-y-4" onsubmit="event.preventDefault(); document.getElementById('form-success-msg').classList.remove('hidden'); document.getElementById('contact-form').reset();">
+            
+            <div class="space-y-1.5">
+              <label for="name" class="block text-xs font-bold text-foreground">
+                성함 또는 닉네임 <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="예: 홍길동"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-muted/30 border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition"
+              />
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="email" class="block text-xs font-bold text-foreground">
+                이메일 주소 <span class="text-rose-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="답변 받으실 이메일을 입력하세요 (예: user@example.com)"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-muted/30 border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition"
+              />
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="category" class="block text-xs font-bold text-foreground">
+                문의 유형 (Inquiry Type) <span class="text-rose-500">*</span>
+              </label>
+              <select
+                id="category"
+                name="category"
+                required
+                class="w-full px-3.5 py-2.5 rounded-xl bg-muted/30 border border-border text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition"
+              >
+                <option value="general">일반 이용 문의 (General Question)</option>
+                <option value="bug">오류 및 버그 제보 (Bug Report)</option>
+                <option value="feature">새로운 프리셋 / 기능 제안 (Feature Request)</option>
+                <option value="business">광고 및 비즈니스 제휴 (Business / Partnership)</option>
+                <option value="privacy">개인정보 및 저작권 문의 (Privacy & DMCA)</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="message" class="block text-xs font-bold text-foreground">
+                문의 내용 (Message) <span class="text-rose-500">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows="5"
+                required
+                placeholder="문의하실 내용을 상세히 적어주세요. 오류 제보 시 브라우저 종류(크롬, 사파리 등)를 함께 적어주시면 빠른 해결에 도움이 됩니다."
+                class="w-full px-3.5 py-2.5 rounded-xl bg-muted/30 border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition resize-y"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3 px-4 rounded-xl bg-primary text-primary-foreground font-bold text-xs sm:text-sm hover:opacity-90 active:scale-[0.99] transition shadow-md shadow-primary/20 flex items-center justify-center gap-2"
+            >
+              <span>문의 메시지 전송</span>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+
+            <!-- Success Alert -->
+            <div id="form-success-msg" class="hidden p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-xs font-medium text-center">
+              ✓ 문의가 성공적으로 접수되었습니다. 담당자가 확인 후 신속히 회신드리겠습니다.
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Info & FAQ Sidebar (2/5) -->
+        <div class="lg:col-span-2 space-y-6">
+          
+          <div class="p-6 rounded-3xl border border-border bg-card shadow-sm space-y-4">
+            <h2 class="text-sm font-bold text-foreground flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-primary"></span>
+              자주 찾는 질문 바로가기
+            </h2>
+            <p class="text-xs text-muted-foreground leading-relaxed">
+              문의하시기 전 아래 주요 질문들을 확인하시면 즉시 해결하실 수 있습니다.
+            </p>
+            <ul class="space-y-2.5 text-xs text-muted-foreground">
+              <li>
+                <a href="/#faq" class="font-medium text-foreground hover:text-primary transition block">
+                  Q. 업로드한 GIF가 서버에 저장되나요?
+                </a>
+                <span class="text-[11px] text-emerald-600 dark:text-emerald-400">→ 아니오, 100% 브라우저 메모리 내 로컬 처리됩니다.</span>
+              </li>
+              <li>
+                <a href="/#presets-table" class="font-medium text-foreground hover:text-primary transition block">
+                  Q. 카카오톡이나 디시인사이드 10MB는 어떻게 맞추나요?
+                </a>
+                <span class="text-[11px]">→ 플랫폼 규격표에서 1클릭 프리셋을 적용하세요.</span>
+              </li>
+              <li>
+                <a href="/#faq" class="font-medium text-foreground hover:text-primary transition block">
+                  Q. 포토샵이나 프리미어에서 줄이는 방법은?
+                </a>
+                <span class="text-[11px]">→ FAQ 섹션에 단계별 튜토리얼이 수록되어 있습니다.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-6 rounded-3xl border border-border bg-card shadow-sm space-y-3 text-xs text-muted-foreground">
+            <h2 class="text-sm font-bold text-foreground">
+              안내 및 운영 방침
+            </h2>
+            <p class="leading-relaxed">
+              본 사이트는 건전한 웹 생태계 조성을 지지하며, 스팸, 광고성 홍보 메시지, 비방성 문의에 대해서는 답변이 제한될 수 있습니다.
+            </p>
+            <div class="pt-2 border-t border-border/60">
+              <span class="text-[11px]">Reduce GIF Size Support Team · Seoul, Republic of Korea</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+    <Footer />
+  </body>
+</html>

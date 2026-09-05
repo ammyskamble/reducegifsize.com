@@ -5,7 +5,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 const pageTitle = "이용약관 (Terms of Service) - Reduce GIF Size";
-const pageDescription = "Reduce GIF Size의 서비스 이용 약관 및 사용자 준수 사항을 안내합니다.";
+const pageDescription = "Reduce GIF Size의 이용 약관, 저작권 소유권 규정, 사용 준수 사항, 광고 정책 및 법적 면책 조항을 안내합니다.";
+const canonicalUrl = "https://reducegifsize.com/terms";
 ---
 
 <!doctype html>
@@ -14,13 +15,17 @@ const pageDescription = "Reduce GIF Size의 서비스 이용 약관 및 사용�
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
     <meta name="description" content={pageDescription} />
-    <link rel="canonical" href="https://reducegifsize.com/terms" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -28,44 +33,130 @@ const pageDescription = "Reduce GIF Size의 서비스 이용 약관 및 사용�
   <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
     <Header />
 
-    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
-      <div class="space-y-3">
-        <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-foreground">
-          이용약관 (Terms of Service)
+    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10">
+      
+      <!-- Breadcrumb & Header -->
+      <div class="space-y-4">
+        <nav class="flex items-center gap-2 text-xs text-muted-foreground font-medium" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-primary transition">홈</a>
+          <span>/</span>
+          <span class="text-foreground">이용약관</span>
+        </nav>
+
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold">
+          <span>Terms of Service</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+          이용약관 <br class="sm:hidden" />
+          <span class="text-xs sm:text-xl font-medium text-muted-foreground block sm:inline mt-1 sm:mt-0">
+            (Terms and Conditions)
+          </span>
         </h1>
-        <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-          최종 개정일: 2026년 9월 6일
+
+        <p class="text-xs sm:text-sm text-muted-foreground">
+          시행일자: 2026년 9월 6일 · 최종 개정일: 2026년 9월 6일
         </p>
       </div>
 
-      <div class="p-6 sm:p-8 rounded-3xl border border-border bg-card shadow-sm space-y-6 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-        <div class="space-y-2">
-          <h2 class="text-base sm:text-lg font-bold text-foreground">
-            1. 서비스의 목적 및 제공
+      <!-- Main Terms Document -->
+      <div class="p-6 sm:p-10 rounded-3xl border border-border bg-card shadow-sm space-y-8 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+        
+        <!-- Section 1 -->
+        <section class="space-y-3">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            1. 총칙 및 약관의 동의
           </h2>
           <p>
-            Reduce GIF Size(이하 "서비스")는 사용자가 업로드한 그래픽 인터체인지 포맷(GIF) 파일의 크기 조정 및 압축을 브라우저 내에서 지원하는 무료 웹 유틸리티입니다. 사용자는 별도의 가입이나 결제 없이 서비스를 자유롭게 이용할 수 있습니다.
+            본 이용약관(이하 "약관")은 이용자가 <strong>Reduce GIF Size (reducegifsize.com)</strong>(이하 "서비스")가 제공하는 모든 온라인 유틸리티 도구 및 정보 서비스를 이용함에 있어 서비스와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다. 이용자가 본 웹사이트에 접속하거나 도구를 사용하는 것은 본 약관에 동의한 것으로 간주됩니다.
           </p>
-        </div>
+        </section>
 
-        <div class="space-y-2">
-          <h2 class="text-base sm:text-lg font-bold text-foreground">
-            2. 지적 재산권 및 저작권 책임
+        <!-- Section 2: Intellectual Property & Content Ownership (CRITICAL) -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            2. 사용자 콘텐츠의 저작권 및 소유권 (100% 이용자 귀속)
           </h2>
           <p>
-            사용자가 서비스를 통해 변환하거나 다운로드하는 모든 GIF 콘텐츠의 저작권과 적법성에 대한 책임은 전적으로 사용자 본인에게 있습니다. 타인의 지적 재산권 또는 초상권을 침해하는 불법적인 파일의 가공을 금지합니다.
+            <strong>귀하의 창작물에 대한 완전한 권한:</strong> 이용자가 본 서비스를 통해 불러오거나, 조절, 압축, 변환하는 모든 원본 GIF 이미지 및 결과물에 대한 지적 재산권과 소유권은 전적으로 <strong>이용자 본인</strong>에게 귀속됩니다.
           </p>
-        </div>
+          <ul class="list-disc pl-5 space-y-1.5">
+            <li>서비스는 이용자의 파일에 대해 어떠한 소유권, 배포권, 2차적 저작물 작성권도 주장하지 않습니다.</li>
+            <li>변환된 파일은 서비스 데이터베이스나 서버에 보관되지 않으므로, 서비스 운영진은 이용자의 파일을 검열하거나 재사용할 수 없습니다.</li>
+            <li>이용자는 자신이 업로드하는 미디어 콘텐츠가 타인의 저작권, 상표권, 초상권 또는 관련 법령을 침해하지 않음을 보증해야 합니다.</li>
+          </ul>
+        </section>
 
-        <div class="space-y-2">
-          <h2 class="text-base sm:text-lg font-bold text-foreground">
-            3. 면책 조항
+        <!-- Section 3: Permitted and Prohibited Uses -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            3. 서비스의 이용 규칙 및 금지 행위
           </h2>
           <p>
-            서비스는 "있는 그대로(AS IS)" 제공되며, 도구 이용으로 인한 데이터 손실이나 호환성 문제에 대해 법률이 허용하는 최대 한도 내에서 책임을 부담하지 않습니다. 중요한 원본 파일은 반드시 별도로 백업해두시기 바랍니다.
+            이용자는 공공질서와 미풍양속을 해치지 않는 범위 내에서 서비스를 자유롭게 이용할 수 있습니다. 단, 아래 각 호의 행위는 엄격히 금지됩니다:
           </p>
-        </div>
+          <ul class="list-disc pl-5 space-y-1.5">
+            <li>본 웹사이트의 시스템, 서버, 네트워크를 고의로 방해하거나 마비시키려는 서비스 거부(DDoS) 공격 및 비정상적인 트래픽 유발 행위</li>
+            <li>본 웹사이트의 인터페이스나 기능을 허가 없이 프레임(iFrame)에 임베드하여 타인에게 유료로 제공하는 재판매 행위</li>
+            <li>불법 저작물, 음란물, 폭력적 콘텐츠 등 법률을 위반하는 콘텐츠의 유포 목적으로 서비스를 악용하는 행위</li>
+          </ul>
+        </section>
+
+        <!-- Section 4: Advertising and Third-Party Links (AdSense Compliance) -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            4. 제3자 광고 및 외부 링크 고지 (Google AdSense)
+          </h2>
+          <p>
+            본 웹사이트는 Google AdSense를 포함한 제3자 광고 파트너의 광고를 게재할 수 있습니다. 본 사이트에 표시되는 광고 링크나 제3자 웹사이트로 연결되는 링크는 이용자의 편의 또는 정보 제공을 위한 것이며, 당사는 해당 제3자 사이트의 콘텐츠, 제품, 개인정보 보호 관행에 대해 책임을 지지 않습니다. 광고 상품의 구매 및 계약은 이용자와 해당 광고주 간의 책임 하에 이루어집니다.
+          </p>
+        </section>
+
+        <!-- Section 5: Warranty Disclaimer and Limitation of Liability -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            5. 면책 조항 (Disclaimer of Warranties & Liability)
+          </h2>
+          <ul class="list-disc pl-5 space-y-1.5">
+            <li>본 서비스는 "있는 그대로(AS IS)" 그리고 "이용 가능한 상태(AS AVAILABLE)"로 제공됩니다. 당사는 서비스가 중단 없이 운영되거나, 특정 목적에 완전히 부합하거나, 모든 기기 환경에서 무결하게 작동함을 보증하지 않습니다.</li>
+            <li>사용자의 브라우저 사양, 메모리 한계, OS 환경에 따른 예기치 못한 브라우저 탭 다운이나 데이터 손실에 대해 당사는 고의 또는 중과실이 없는 한 손해배상 책임을 지지 않습니다. <strong>중요한 원본 미디어 파일은 반드시 별도로 백업해두시기 바랍니다.</strong></li>
+          </ul>
+        </section>
+
+        <!-- Section 6: DMCA and Copyright Infringement -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            6. 디지털 밀레니엄 저작권법(DMCA) 및 지적재산권 침해 신고
+          </h2>
+          <p>
+            Reduce GIF Size는 지적 재산권을 존중합니다. 본 서비스는 클라이언트 전용 도구로서 사용자 파일을 저장하지 않으나, 본 웹사이트의 UI, 텍스트, 설명서 등에 저작권 침해 소지가 있다고 판단되시는 경우 언제든지 공식 이메일(<a href="mailto:contact@reducegifsize.com" class="text-primary hover:underline font-mono">contact@reducegifsize.com</a>)로 소명 자료와 함께 신고해주시면 즉각 검토 후 조치하겠습니다.
+          </p>
+        </section>
+
+        <!-- Section 7: Governing Law and Contact -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            7. 준거법 및 분쟁 해결
+          </h2>
+          <p>
+            본 약관은 대한민국 법령을 준거법으로 하며, 서비스 이용과 관련하여 분쟁이 발생할 경우 당사자 간의 성실한 협의를 통해 해결함을 원칙으로 합니다.
+          </p>
+          <div class="p-4 rounded-xl bg-card border border-border space-y-1 text-xs sm:text-sm mt-3">
+            <p><strong>약관 관련 문의처:</strong> Legal & Policy Team</p>
+            <p><strong>공식 이메일:</strong> <a href="mailto:contact@reducegifsize.com" class="text-primary hover:underline font-mono">contact@reducegifsize.com</a></p>
+            <p><strong>온라인 문의:</strong> <a href="/contact" class="text-primary hover:underline">문의하기 페이지</a></p>
+          </div>
+        </section>
+
       </div>
+
     </main>
 
     <Footer />

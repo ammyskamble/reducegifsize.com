@@ -5,7 +5,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 const pageTitle = "서비스 소개 (About Us) - Reduce GIF Size";
-const pageDescription = "Reduce GIF Size의 개발 배경, 클라이언트 기반 고속 처리 기술, 개인정보 보호 철학을 안내합니다.";
+const pageDescription = "Reduce GIF Size의 설립 취지, 한국 및 글로벌 사용자를 위한 고속 GIF 압축 엔진, 개인정보 제로-서버 원칙과 서비스 투명성을 소개합니다.";
+const canonicalUrl = "https://reducegifsize.com/about";
 ---
 
 <!doctype html>
@@ -14,13 +15,17 @@ const pageDescription = "Reduce GIF Size의 개발 배경, 클라이언트 기�
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
     <meta name="description" content={pageDescription} />
-    <link rel="canonical" href="https://reducegifsize.com/about" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -28,40 +33,142 @@ const pageDescription = "Reduce GIF Size의 개발 배경, 클라이언트 기�
   <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
     <Header />
 
-    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
-      <div class="space-y-3">
-        <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-foreground">
-          서비스 소개 (About Us)
+    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      
+      <!-- Breadcrumb & Hero -->
+      <div class="space-y-4">
+        <nav class="flex items-center gap-2 text-xs text-muted-foreground font-medium" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-primary transition">홈</a>
+          <span>/</span>
+          <span class="text-foreground">서비스 소개</span>
+        </nav>
+
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold">
+          <span>About Reduce GIF Size</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+          빠르고 안전한 미디어 최적화 <br class="sm:hidden" />
+          <span class="text-xs sm:text-xl font-medium text-muted-foreground block sm:inline mt-1 sm:mt-0">
+            (About Us)
+          </span>
         </h1>
+
         <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
-          더 빠르고, 더 안전하며, 타협 없는 화질의 애니메이션 GIF 최적화 플랫폼
+          웹 브라우저 기술을 활용하여 사용자 프라이버시를 완벽히 지키며 초고속 GIF 리사이징 및 압축 경험을 제공합니다.
         </p>
       </div>
 
-      <div class="p-6 rounded-3xl border border-border bg-card shadow-sm space-y-6 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-        <div class="space-y-2">
-          <h2 class="text-base sm:text-lg font-bold text-foreground">
-            왜 Reduce GIF Size인가요?
-          </h2>
-          <p>
-            기존의 해외 온라인 GIF 압축 툴들은 사용자의 이미지를 해외 서버로 업로드하여 대기열에서 처리하거나, 무거운 워터마크 또는 유료 결제를 유도해 많은 불편을 초래했습니다. 또한 국내 사용자들이 자주 찾는 카카오톡, 디시인사이드, 네이버 등의 엄격한 파일 규격(10MB/20MB)을 고려하지 않아 여러 번 재시도해야 하는 번거로움이 있었습니다.
-          </p>
-          <p>
-            Reduce GIF Size는 이러한 문제를 근본적으로 해결하기 위해 <strong>100% 브라우저 내 직접 연산</strong>(In-Browser Processing) 방식을 채택하여 탄생했습니다.
+      <!-- Feature Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-5 rounded-2xl border border-border bg-card shadow-xs space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
+            01
+          </div>
+          <h2 class="font-bold text-sm text-foreground">100% 로컬 처리</h2>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            이미지를 외부 서버로 전송하지 않고 사용자의 브라우저 메모리 안에서 즉각 렌더링하고 압축합니다.
           </p>
         </div>
 
-        <div class="space-y-2">
-          <h2 class="text-base sm:text-lg font-bold text-foreground">
-            핵심 기술 원칙
-          </h2>
-          <ul class="list-disc pl-5 space-y-1.5">
-            <li><strong>제로 서버 업로드:</strong> 모든 GIF 디코딩, 리사이징, 팔레트 양자화, 인코딩이 사용자의 스마트폰이나 PC 브라우저 메모리 상에서 실시간으로 완료됩니다.</li>
-            <li><strong>지능형 프레임 지연 보정:</strong> 프레임 스킵을 적용해도 남겨진 프레임에 지연 시간을 정확히 합산하여 원본 재생 속도와 총 시간을 오차 없이 보존합니다.</li>
-            <li><strong>투명도 및 팔레트 최적화:</strong> 투명 알파 채널을 보존하는 신경망/옥트리 기반 컬러 양자화로 디테일 손실을 최소화합니다.</li>
-          </ul>
+        <div class="p-5 rounded-2xl border border-border bg-card shadow-xs space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-cyan-glow/15 text-cyan-glow flex items-center justify-center font-bold text-sm">
+            02
+          </div>
+          <h2 class="font-bold text-sm text-foreground">국내 플랫폼 규격 최적화</h2>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            카카오톡, 디시인사이드, 네이버 등 10MB/20MB 한도 맞춤형 프리셋을 원클릭으로 제공합니다.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-border bg-card shadow-xs space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-sm">
+            03
+          </div>
+          <h2 class="font-bold text-sm text-foreground">워터마크 제로 & 무료</h2>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            회원가입, 결제, 다운로드 횟수 제한 없이 고품질 움짤을 누구나 영구적으로 무료 제작할 수 있습니다.
+          </p>
         </div>
       </div>
+
+      <!-- Content Sections -->
+      <div class="p-6 sm:p-10 rounded-3xl border border-border bg-card shadow-sm space-y-8 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+        
+        <!-- Story -->
+        <section class="space-y-3">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            프로젝트 개발 배경 (Our Mission)
+          </h2>
+          <p>
+            커뮤니티와 메신저에서 ‘움짤(GIF)’은 감정을 생생하게 전하는 중요한 소통 수단입니다. 하지만 고화질 동영상을 GIF로 변환하면 순식간에 20MB~50MB가 넘어 카카오톡 프로필(10MB), 디시인사이드 갤러리(10MB~20MB), 네이버 카페(20MB) 업로드 제한에 걸려 실패하는 경우가 많았습니다.
+          </p>
+          <p>
+            기존의 온라인 변환기들은 사용자의 사진을 해외 클라우드 서버로 업로드하도록 강제하여 개인정보 유출 위험이 있었고, 처리 대기열이 길거나 결과물에 큰 워터마크를 찍어 유료 결제를 유도했습니다.
+          </p>
+          <p>
+            <strong>Reduce GIF Size (reducegifsize.com)</strong>는 이러한 번거로움을 완전히 해결하고자 출발했습니다. 최신 브라우저의 강력한 WebAssembly 및 HTML5 Canvas 연산 성능을 활용하여, 단 1바이트의 이미지도 서버로 전송하지 않는 프라이버시 우선 도구를 완성했습니다.
+          </p>
+        </section>
+
+        <!-- Technical Excellence -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            기술적 차별성 (Engineering Principles)
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div class="p-4 rounded-xl bg-muted/30 border border-border space-y-1.5">
+              <h3 class="font-semibold text-foreground text-xs sm:text-sm">정밀 프레임 지연시간 보존</h3>
+              <p class="text-xs text-muted-foreground">
+                움짤의 용량을 줄이기 위해 2~3프레임마다 1장을 건너뛸 때, 남겨진 프레임에 제거된 지연시간(Delay time)을 수학적으로 정확히 누적 합산하여 재생 속도가 빨라지거나 왜곡되지 않습니다.
+              </p>
+            </div>
+            <div class="p-4 rounded-xl bg-muted/30 border border-border space-y-1.5">
+              <h3 class="font-semibold text-foreground text-xs sm:text-sm">신경망/옥트리 컬러 양자화</h3>
+              <p class="text-xs text-muted-foreground">
+                GIF89a 규격의 256색 제한 안에서 투명 알파 마스크를 보존하고 색조 계단 현상(Banding)을 방지하는 최신 양자화 알고리즘과 디더링을 브라우저 클라이언트에서 실시간 구동합니다.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Editorial Independence & Advertising Policy (CRITICAL FOR ADSENSE) -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            광고 정책 및 운영 투명성 (AdSense & Sustainability Policy)
+          </h2>
+          <p>
+            Reduce GIF Size는 모든 핵심 유틸리티 기능을 전 세계 모든 사용자에게 100% 무료로 개방하고 있습니다. 서비스 인프라 유지, 도메인 비용 및 지속적인 기능 개선 연구를 위해 페이지에 비침해성(Non-intrusive) 온라인 광고를 게재합니다.
+          </p>
+          <ul class="list-disc pl-5 space-y-1.5">
+            <li><strong>이용자 경험 보호:</strong> 과도한 팝업, 사용자를 속이는 위장 다운로드 버튼, 강제 대기형 전면 광고를 엄격히 배제합니다.</li>
+            <li><strong>콘텐츠 분리 원칙:</strong> 광고 영역은 핵심 변환 작업 공간 및 편집 제어 패널과 명확히 구분되어 운영됩니다.</li>
+            <li><strong>Google AdSense 정책 준수:</strong> Google의 게시자 정책, 품질 가이드라인 및 투명성 규정을 엄격히 준수합니다.</li>
+          </ul>
+        </section>
+
+        <!-- Operator Info -->
+        <section class="space-y-3 pt-6 border-t border-border">
+          <h2 class="text-base sm:text-lg font-bold text-foreground flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            운영팀 및 커뮤니케이션
+          </h2>
+          <p>
+            사용자 여러분의 피드백과 기능 건의는 언제나 환영합니다. 도구 사용 중 발견된 버그나 새로운 규격 프리셋 추가 건의는 아래 지원 채널로 알려주시면 즉시 검토하겠습니다.
+          </p>
+          <div class="p-4 rounded-xl bg-card border border-border space-y-1 text-xs sm:text-sm">
+            <p><strong>운영 주체:</strong> Reduce GIF Size Project Team</p>
+            <p><strong>공식 웹사이트:</strong> <a href="https://reducegifsize.com" class="text-primary hover:underline">https://reducegifsize.com</a></p>
+            <p><strong>문의 이메일:</strong> <a href="mailto:contact@reducegifsize.com" class="text-primary hover:underline font-mono">contact@reducegifsize.com</a></p>
+            <p><strong>고객 문의 센터:</strong> <a href="/contact" class="text-primary hover:underline">문의하기 (Contact Us)</a></p>
+          </div>
+        </section>
+
+      </div>
+
     </main>
 
     <Footer />
