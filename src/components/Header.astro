@@ -121,12 +121,92 @@
         </svg>
       </button>
 
+      <!-- Mobile Menu Button (Hamburger) -->
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        class="lg:hidden p-2 rounded-xl border border-border bg-card hover:bg-muted/50 text-foreground transition focus:outline-none focus:ring-2 focus:ring-primary/40"
+        aria-label="모바일 메뉴 열기"
+        aria-expanded="false"
+      >
+        <svg id="hamburger-icon" class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="close-icon" class="w-4.5 h-4.5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
     </div>
 
+  </div>
+
+  <!-- Mobile Navigation Dropdown Drawer -->
+  <div
+    id="mobile-menu-drawer"
+    class="lg:hidden hidden border-t border-border bg-card/95 backdrop-blur-xl px-4 py-4 space-y-2 transition-all duration-200"
+  >
+    <nav class="flex flex-col space-y-1 text-sm font-semibold">
+      <a href="/#tool-workspace" class="mobile-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-muted/50 text-foreground transition">
+        <span>리사이저 툴</span>
+        <span class="text-xs text-primary font-mono font-bold">Tool</span>
+      </a>
+      <a href="/#presets-table" class="mobile-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition">
+        <span>플랫폼 규격</span>
+        <span class="text-xs text-muted-foreground font-mono">Specs</span>
+      </a>
+      <a href="/#guide" class="mobile-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition">
+        <span>최적화 가이드</span>
+        <span class="text-xs text-muted-foreground font-mono">Guide</span>
+      </a>
+      <a href="/#faq" class="mobile-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition">
+        <span>자주 묻는 질문</span>
+        <span class="text-xs text-muted-foreground font-mono">FAQ</span>
+      </a>
+      <div class="h-px bg-border/60 my-1.5"></div>
+      <a href="/about" class="mobile-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition">
+        <span>서비스 소개</span>
+        <span class="text-xs text-muted-foreground">About</span>
+      </a>
+      <a href="/contact" class="mobile-nav-link flex items-center justify-between px-3.5 py-2.5 rounded-xl hover:bg-muted/50 text-muted-foreground hover:text-foreground transition">
+        <span>문의하기</span>
+        <span class="text-xs text-muted-foreground">Contact</span>
+      </a>
+    </nav>
   </div>
 </header>
 
 <script is:inline>
+  // Mobile Hamburger Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenuDrawer = document.getElementById('mobile-menu-drawer');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  function toggleMobileMenu(forceClose = false) {
+    if (!mobileMenuDrawer) return;
+    const isCurrentlyOpen = !mobileMenuDrawer.classList.contains('hidden');
+    const shouldOpen = forceClose ? false : !isCurrentlyOpen;
+
+    if (shouldOpen) {
+      mobileMenuDrawer.classList.remove('hidden');
+      hamburgerIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      mobileMenuBtn?.setAttribute('aria-expanded', 'true');
+    } else {
+      mobileMenuDrawer.classList.add('hidden');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  mobileMenuBtn?.addEventListener('click', () => toggleMobileMenu());
+
+  // Close drawer when any mobile nav link is clicked
+  document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+    link.addEventListener('click', () => toggleMobileMenu(true));
+  });
   // Dark mode handler
   const htmlEl = document.documentElement;
   const toggleBtn = document.getElementById('theme-toggle-btn');
