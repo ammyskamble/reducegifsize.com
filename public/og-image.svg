@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <!-- Background with dark sleek gradient -->
+  <rect width="1200" height="630" fill="#0b0f19"/>
+  <rect width="1200" height="630" fill="url(#bg-radial)" opacity="0.8"/>
+  
+  <!-- Subtle Grid Lines -->
+  <g opacity="0.1" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Glowing background orbs -->
+  <circle cx="250" cy="200" r="180" fill="#6366f1" filter="url(#blur-glow)" opacity="0.25"/>
+  <circle cx="950" cy="420" r="220" fill="#0ea5e9" filter="url(#blur-glow)" opacity="0.2"/>
+
+  <!-- Logo Mark Container -->
+  <rect x="90" y="90" width="64" height="64" rx="18" fill="#4f46e5"/>
+  <text x="122" y="133" fill="#ffffff" font-family="'Inter', sans-serif" font-weight="900" font-size="34" text-anchor="middle">G</text>
+
+  <!-- Brand Text -->
+  <text x="175" y="125" fill="#ffffff" font-family="'Inter', sans-serif" font-weight="800" font-size="28" letter-spacing="-0.5">
+    Reduce GIF <tspan fill="#6366f1">Size</tspan>
+  </text>
+  <text x="175" y="148" fill="#94a3b8" font-family="'Inter', sans-serif" font-weight="600" font-size="14">
+    초고속 온라인 브라우저 GIF 리사이저 &amp; 압축기
+  </text>
+
+  <!-- Live Badge -->
+  <rect x="90" y="200" width="340" height="38" rx="19" fill="#1e1b4b" stroke="#4f46e5" stroke-opacity="0.4"/>
+  <circle cx="112" cy="219" r="5" fill="#38bdf8"/>
+  <text x="128" y="224" fill="#38bdf8" font-family="'Inter', sans-serif" font-weight="700" font-size="14">
+    100% 브라우저 내 로컬 처리 · 서버 업로드 없음
+  </text>
+
+  <!-- Main Headline in Korean -->
+  <text x="90" y="300" fill="#ffffff" font-family="'Inter', sans-serif" font-weight="900" font-size="52" letter-spacing="-1">
+    GIF 용량 줄이기 &amp; 크기 조절
+  </text>
+  <text x="90" y="360" fill="#38bdf8" font-family="'Inter', sans-serif" font-weight="800" font-size="40" letter-spacing="-0.5">
+    화질과 부드러운 움직임 그대로 압축
+  </text>
+
+  <!-- Description paragraph -->
+  <text x="90" y="420" fill="#94a3b8" font-family="'Inter', sans-serif" font-weight="500" font-size="20">
+    카카오톡 10MB · 디시인사이드 갤러리 · 네이버 블로그 맞춤 프리셋
+  </text>
+
+  <!-- Feature Pill Tags -->
+  <g transform="translate(90, 480)">
+    <!-- Pill 1 -->
+    <rect x="0" y="0" width="180" height="44" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="90" y="27" fill="#e2e8f0" font-family="'Inter', sans-serif" font-weight="600" font-size="15" text-anchor="middle">✓ 해상도 비율 조절</text>
+    
+    <!-- Pill 2 -->
+    <rect x="195" y="0" width="180" height="44" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="285" y="27" fill="#e2e8f0" font-family="'Inter', sans-serif" font-weight="600" font-size="15" text-anchor="middle">✓ 256 팔레트 최적화</text>
+    
+    <!-- Pill 3 -->
+    <rect x="390" y="0" width="180" height="44" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="480" y="27" fill="#e2e8f0" font-family="'Inter', sans-serif" font-weight="600" font-size="15" text-anchor="middle">✓ 50% 프레임 스킵</text>
+
+    <!-- Pill 4 -->
+    <rect x="585" y="0" width="180" height="44" rx="14" fill="#1e293b" stroke="#334155"/>
+    <text x="675" y="27" fill="#e2e8f0" font-family="'Inter', sans-serif" font-weight="600" font-size="15" text-anchor="middle">✓ 클립보드 바로 복사</text>
+  </g>
+
+  <!-- Right Visual Element / Metric Mockup -->
+  <g transform="translate(860, 150)">
+    <rect width="250" height="320" rx="24" fill="#131b2e" stroke="#253556" stroke-width="2"/>
+    
+    <!-- Top badge -->
+    <rect x="25" y="25" width="200" height="150" rx="16" fill="#1e293b"/>
+    <circle cx="125" cy="100" r="45" fill="#4f46e5" opacity="0.4"/>
+    <text x="125" y="106" fill="#ffffff" font-family="'Inter', sans-serif" font-weight="800" font-size="16" text-anchor="middle">GIF STUDIO</text>
+    
+    <!-- Compression Metric -->
+    <rect x="25" y="195" width="200" height="42" rx="12" fill="#065f46" fill-opacity="0.3" stroke="#10b981" stroke-opacity="0.4"/>
+    <text x="125" y="222" fill="#34d399" font-family="'JetBrains Mono', monospace" font-weight="800" font-size="15" text-anchor="middle">-65% (4.2MB → 1.4MB)</text>
+
+    <!-- Dimension Spec -->
+    <text x="125" y="270" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-weight="600" font-size="13" text-anchor="middle">640 × 640 px · 18 FPS</text>
+    <text x="125" y="295" fill="#64748b" font-family="'Inter', sans-serif" font-weight="600" font-size="11" text-anchor="middle">100% In-Browser Engine</text>
+  </g>
+
+  <!-- Definitions -->
+  <defs>
+    <radialGradient id="bg-radial" cx="600" cy="315" r="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e1b4b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0b0f19" stop-opacity="0.9"/>
+    </radialGradient>
+    <filter id="blur-glow" x="-100" y="-100" width="1000" height="1000" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="80"/>
+    </filter>
+  </defs>
+</svg>

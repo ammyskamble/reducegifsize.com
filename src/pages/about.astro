@@ -1,0 +1,69 @@
+---
+// src/pages/about.astro
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const pageTitle = "서비스 소개 (About Us) - Reduce GIF Size";
+const pageDescription = "Reduce GIF Size의 개발 배경, 클라이언트 기반 고속 처리 기술, 개인정보 보호 철학을 안내합니다.";
+---
+
+<!doctype html>
+<html lang="ko-KR" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href="https://reducegifsize.com/about" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+    <Header />
+
+    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+      <div class="space-y-3">
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight text-foreground">
+          서비스 소개 (About Us)
+        </h1>
+        <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
+          더 빠르고, 더 안전하며, 타협 없는 화질의 애니메이션 GIF 최적화 플랫폼
+        </p>
+      </div>
+
+      <div class="p-6 rounded-3xl border border-border bg-card shadow-sm space-y-6 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+        <div class="space-y-2">
+          <h2 class="text-base sm:text-lg font-bold text-foreground">
+            왜 Reduce GIF Size인가요?
+          </h2>
+          <p>
+            기존의 해외 온라인 GIF 압축 툴들은 사용자의 이미지를 해외 서버로 업로드하여 대기열에서 처리하거나, 무거운 워터마크 또는 유료 결제를 유도해 많은 불편을 초래했습니다. 또한 국내 사용자들이 자주 찾는 카카오톡, 디시인사이드, 네이버 등의 엄격한 파일 규격(10MB/20MB)을 고려하지 않아 여러 번 재시도해야 하는 번거로움이 있었습니다.
+          </p>
+          <p>
+            Reduce GIF Size는 이러한 문제를 근본적으로 해결하기 위해 <strong>100% 브라우저 내 직접 연산</strong>(In-Browser Processing) 방식을 채택하여 탄생했습니다.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h2 class="text-base sm:text-lg font-bold text-foreground">
+            핵심 기술 원칙
+          </h2>
+          <ul class="list-disc pl-5 space-y-1.5">
+            <li><strong>제로 서버 업로드:</strong> 모든 GIF 디코딩, 리사이징, 팔레트 양자화, 인코딩이 사용자의 스마트폰이나 PC 브라우저 메모리 상에서 실시간으로 완료됩니다.</li>
+            <li><strong>지능형 프레임 지연 보정:</strong> 프레임 스킵을 적용해도 남겨진 프레임에 지연 시간을 정확히 합산하여 원본 재생 속도와 총 시간을 오차 없이 보존합니다.</li>
+            <li><strong>투명도 및 팔레트 최적화:</strong> 투명 알파 채널을 보존하는 신경망/옥트리 기반 컬러 양자화로 디테일 손실을 최소화합니다.</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

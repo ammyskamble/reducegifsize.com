@@ -1,0 +1,68 @@
+---
+// src/components/Footer.astro
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-card/60 backdrop-blur-md mt-20 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <!-- Brand & Mission -->
+      <div class="md:col-span-2 space-y-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-black text-sm shadow-sm">
+            G
+          </div>
+          <span class="font-extrabold text-base tracking-tight text-foreground">
+            Reduce GIF <span class="text-primary">Size</span>
+          </span>
+        </div>
+        <p class="text-xs text-muted-foreground leading-relaxed max-w-sm">
+          Reduce GIF Size는 한국 사용자와 전 세계 크리에이터를 위해 설계된 초고속 브라우저 기반 GIF 리사이저 및 압축 도구입니다. 서버 업로드 없는 100% 안전한 로컬 처리를 지향합니다.
+        </p>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>100% 로컬 프라이버시 보장 (서버 미전송)</span>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="space-y-3">
+        <div class="text-xs font-bold uppercase tracking-wider text-foreground">
+          바로가기
+        </div>
+        <ul class="space-y-2 text-xs text-muted-foreground">
+          <li><a href="/#tool-workspace" class="hover:text-primary transition">GIF 리사이저 툴</a></li>
+          <li><a href="/#presets-table" class="hover:text-primary transition">카카오/디시/네이버 규격표</a></li>
+          <li><a href="/#guide" class="hover:text-primary transition">화질 보존 압축 가이드</a></li>
+          <li><a href="/#faq" class="hover:text-primary transition">자주 묻는 질문 (FAQ)</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal & Policies -->
+      <div class="space-y-3">
+        <div class="text-xs font-bold uppercase tracking-wider text-foreground">
+          정보 및 정책
+        </div>
+        <ul class="space-y-2 text-xs text-muted-foreground">
+          <li><a href="/about" class="hover:text-primary transition">서비스 소개 (About)</a></li>
+          <li><a href="/privacy" class="hover:text-primary transition">개인정보처리방침 (Privacy Policy)</a></li>
+          <li><a href="/terms" class="hover:text-primary transition">이용약관 (Terms of Service)</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-6 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+      <div>
+        © {currentYear} Reduce GIF Size (ReduceGIFSize.com). All rights reserved.
+      </div>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span>Made with high precision for Korean Creators</span>
+        <span>·</span>
+        <span>HTML5 Canvas & TypedArrays</span>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,214 @@
+---
+// src/pages/index.astro
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import { GifResizerTool } from '../components/GifResizerTool';
+import PlatformSpecsTable from '../components/PlatformSpecsTable.astro';
+import GuideSection from '../components/GuideSection.astro';
+import SeoContentSection from '../components/SeoContentSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { KOREAN_FAQS, ENGLISH_FAQS } from '../data/faqs';
+import Footer from '../components/Footer.astro';
+
+const mainKeyword = "gif 용량 줄이기";
+const pageTitle = "gif 용량 줄이기 & gif 크기 줄이기 | 초고속 온라인 무료 움짤 압축기 (Reduce GIF Size)";
+const pageDescription = "서버 업로드 없이 100% 브라우저 내에서 gif 용량 줄이기 및 gif 크기 줄이기를 무료로 실행하세요. 카카오톡 10MB, 디시인사이드 갤러리, 네이버 블로그 맞춤 프리셋과 초고화질 프레임 최적화 지원.";
+const canonicalUrl = "https://reducegifsize.com/";
+const ogImageUrl = "https://reducegifsize.com/og-image.svg";
+
+const keywordsContent = [
+  "gif 용량 줄이기",
+  "gif 크기 줄이기",
+  "gif 용량줄이기",
+  "gif 용량 줄이는 사이트",
+  "gif 압축",
+  "gif resizer",
+  "change gif size",
+  "resize gif",
+  "gif resize",
+  "image resizer",
+  "resize animated gif",
+  "how to resize a gif",
+  "downsize gif",
+].join(", ");
+
+// Build comprehensive JSON-LD schema
+const allFaqEntities = [...KOREAN_FAQS, ...ENGLISH_FAQS].map((item) => ({
+  "@type": "Question",
+  "name": item.question,
+  "acceptedAnswer": {
+    "@type": "Answer",
+    "text": item.answer,
+  },
+}));
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://reducegifsize.com/#app",
+      "name": "Reduce GIF Size - gif 용량 줄이기 및 크기 조절",
+      "url": "https://reducegifsize.com/",
+      "description": pageDescription,
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All modern browsers (Windows, macOS, Android, iOS)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+      },
+      "featureList": [
+        "100% In-browser gif 용량 줄이기 with zero server uploads",
+        "Custom dimension scaling (change gif size) with aspect ratio locking",
+        "Korean platform presets (KakaoTalk, DC Inside, Naver Cafe/Blog)",
+        "Color palette quantization (gif 압축: 256 to 16 colors)",
+        "Frame subsampling (downsize gif) with delay preservation",
+        "Live interactive before/after preview, playback and frame scrubber"
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "온라인에서 gif 용량 줄이기 및 resize animated gif 4단계 방법",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "GIF 파일 업로드",
+          "text": "리사이즈할 애니메이션 GIF 파일을 화면에 드래그하거나 파일 선택 또는 클립보드 붙여넣기로 불러옵니다."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "치수 지정 및 프리셋 선택 (change gif size)",
+          "text": "직접 픽셀 크기(px), 축소 비율(%), 또는 카카오톡/디시인사이드 프리셋을 선택합니다."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "색상 수 및 프레임 최적화 (gif 압축)",
+          "text": "용량을 추가로 줄이려면 색상 팔레트(128색)나 2프레임 스킵 옵션을 적용합니다."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "최적화된 GIF 다운로드",
+          "text": "변환된 GIF를 실시간 비교 검수하고 다운로드 또는 클립보드 복사 버튼을 눌러 저장합니다."
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://reducegifsize.com/#faq",
+      "mainEntity": allFaqEntities
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="ko-KR" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={pageDescription} />
+    <meta name="keywords" content={keywordsContent} />
+    <meta name="author" content="Reduce GIF Size" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Hreflang Tags for Multi-Language SEO -->
+    <link rel="alternate" hreflang="ko-KR" href="https://reducegifsize.com/" />
+    <link rel="alternate" hreflang="en" href="https://reducegifsize.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://reducegifsize.com/" />
+
+    <!-- Open Graph (OG) Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Reduce GIF Size" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:alt" content="Reduce GIF Size - 초고속 온라인 GIF 용량 줄이기 및 크기 조절" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="Reduce GIF Size - GIF 용량 줄이기 및 크기 조절" />
+
+    <!-- Google Web Fonts Preconnect & Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data JSON-LD (WebApplication, HowTo, FAQPage) -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaJson)} />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+    <Header />
+
+    <main class="flex-1">
+      
+      <!-- Hero Section -->
+      <section class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 text-center space-y-5 max-w-4xl mx-auto">
+        
+        <!-- Live Privacy Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span>100% 브라우저 내 처리 · 서버 업로드 없는 안전한 gif 용량 줄이는 사이트</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-[1.15]">
+          초고속 온라인 <br class="hidden sm:block" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-cyan-glow">
+            GIF 용량 줄이기
+          </span> & 크기 조절
+        </h1>
+
+        <p class="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          서버 전송 없이 브라우저에서 즉시 움짤의 픽셀 해상도 축소, 프레임 최적화, 256 컬러 압축을 수행합니다. 카카오톡, 디시인사이드, 네이버 업로드 용량 제한을 한 번에 해결하세요.
+        </p>
+
+        <!-- Feature Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs font-medium text-muted-foreground">
+          <span class="px-3 py-1 rounded-lg bg-card border border-border shadow-xs">✓ 무제한 무료 GIF 압축</span>
+          <span class="px-3 py-1 rounded-lg bg-card border border-border shadow-xs">✓ 워터마크 없음</span>
+          <span class="px-3 py-1 rounded-lg bg-card border border-border shadow-xs">✓ 카카오톡 / 디시 / 네이버 규격</span>
+          <span class="px-3 py-1 rounded-lg bg-card border border-border shadow-xs">✓ 클립보드 바로 복사</span>
+        </div>
+      </section>
+
+      <!-- Interactive Tool Workspace Island -->
+      <section class="px-4 sm:px-6 lg:px-8 pb-16">
+        <GifResizerTool client:load />
+      </section>
+
+      <!-- Korean & Global Platform Specs Table -->
+      <PlatformSpecsTable />
+
+      <!-- Optimization Strategy Guide -->
+      <GuideSection />
+
+      <!-- Deep On-Page SEO Editorial Content Section (800-1200 words) -->
+      <SeoContentSection />
+
+      <!-- SEO-Friendly FAQ Section (All 13 In-Depth Questions) -->
+      <FaqSection />
+
+    </main>
+
+    <Footer />
+  </body>
+</html>

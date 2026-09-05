@@ -1,0 +1,95 @@
+---
+// src/components/PlatformSpecsTable.astro
+import { PLATFORM_PRESETS } from '../data/presets';
+---
+
+<section id="presets-table" class="w-full max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 space-y-6">
+  <div class="text-center space-y-3 max-w-2xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold">
+      <span>플랫폼별 규격 안내</span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+      주요 플랫폼 업로드 용량 및 권장 규격표
+    </h2>
+    <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+      카카오톡, 디시인사이드, 네이버 등 국내 인기 플랫폼과 글로벌 SNS의 파일 제한을 한눈에 확인하고 원클릭으로 맞춤 크기를 적용하세요.
+    </p>
+  </div>
+
+  <!-- Responsive Table Card -->
+  <div class="rounded-3xl border border-border bg-card shadow-lg overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs sm:text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-border bg-muted/40 text-muted-foreground font-semibold uppercase text-[11px] tracking-wider">
+            <th class="py-4 px-4 sm:px-6">플랫폼 / 용도</th>
+            <th class="py-4 px-4 font-mono">권장 해상도</th>
+            <th class="py-4 px-4 font-mono">최대 허용 용량</th>
+            <th class="py-4 px-4 font-mono">추천 설정</th>
+            <th class="py-4 px-4 sm:px-6 text-right">적용</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border/60">
+          {PLATFORM_PRESETS.map((preset) => (
+            <tr class="hover:bg-muted/30 transition-colors group">
+              <td class="py-4 px-4 sm:px-6">
+                <div class="font-bold text-foreground flex items-center gap-2">
+                  <span>{preset.nameKo}</span>
+                  {preset.badge && (
+                    <span class="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-mono text-[10px] font-bold">
+                      {preset.badge}
+                    </span>
+                  )}
+                </div>
+                <div class="text-[11px] text-muted-foreground mt-0.5">
+                  {preset.descriptionKo}
+                </div>
+              </td>
+              <td class="py-4 px-4 font-mono font-medium text-foreground whitespace-nowrap">
+                {preset.width} × {preset.height} px
+              </td>
+              <td class="py-4 px-4 font-mono font-bold text-primary whitespace-nowrap">
+                {preset.maxSizeMb} MB 이하
+              </td>
+              <td class="py-4 px-4 font-mono text-muted-foreground text-xs whitespace-nowrap">
+                {preset.recommendedColors}색상 · {preset.recommendedSkip === 2 ? '2프레임 스킵' : '전체 프레임'}
+              </td>
+              <td class="py-4 px-4 sm:px-6 text-right whitespace-nowrap">
+                <button
+                  type="button"
+                  data-preset-btn={preset.id}
+                  class="px-3 py-1.5 rounded-xl border border-border bg-muted/30 hover:bg-primary hover:text-primary-foreground hover:border-primary font-semibold text-xs transition transform active:scale-95 cursor-pointer"
+                >
+                  프리셋 적용
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="p-4 bg-muted/20 border-t border-border flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-2">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>표의 "프리셋 적용" 버튼을 누르면 위의 리사이저 툴에 해당 규격이 즉시 설정됩니다.</span>
+      </div>
+      <a href="#tool-workspace" class="text-primary font-semibold hover:underline">
+        위로 올라가기 ↑
+      </a>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.querySelectorAll('[data-preset-btn]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const id = e.currentTarget.getAttribute('data-preset-btn');
+      if (id) {
+        window.dispatchEvent(new CustomEvent('app:select-preset', { detail: id }));
+      }
+    });
+  });
+</script>

@@ -1,0 +1,158 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-cyan-glow: var(--cyan-glow);
+  --color-success: var(--success);
+
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+}
+
+:root {
+  --background: oklch(0.978 0.005 250);
+  --foreground: oklch(0.18 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 260);
+  --muted: oklch(0.94 0.008 250);
+  --muted-foreground: oklch(0.46 0.03 260);
+  --border: oklch(0.89 0.012 250);
+  --input: oklch(0.89 0.012 250);
+  --ring: oklch(0.52 0.22 260);
+  --primary: oklch(0.52 0.22 260);
+  --primary-foreground: oklch(0.99 0 0);
+  --accent: oklch(0.94 0.04 220);
+  --accent-foreground: oklch(0.35 0.18 250);
+  --cyan-glow: oklch(0.78 0.15 210);
+  --success: oklch(0.62 0.17 145);
+}
+
+.dark {
+  --background: oklch(0.12 0.015 260);
+  --foreground: oklch(0.98 0.005 250);
+  --card: oklch(0.155 0.018 260);
+  --card-foreground: oklch(0.98 0.005 250);
+  --muted: oklch(0.19 0.02 260);
+  --muted-foreground: oklch(0.68 0.02 260);
+  --border: oklch(0.24 0.02 260);
+  --input: oklch(0.24 0.02 260);
+  --ring: oklch(0.65 0.22 255);
+  --primary: oklch(0.65 0.22 255);
+  --primary-foreground: oklch(0.10 0.02 260);
+  --accent: oklch(0.24 0.05 240);
+  --accent-foreground: oklch(0.85 0.12 220);
+  --cyan-glow: oklch(0.75 0.18 205);
+  --success: oklch(0.68 0.18 145);
+}
+
+/* 🟢 Theme 2: Emerald Mint (Sarkari Trust Green) */
+html.theme-emerald {
+  --primary: oklch(0.56 0.18 155);
+  --primary-foreground: oklch(0.99 0 0);
+  --ring: oklch(0.56 0.18 155);
+  --accent: oklch(0.94 0.04 155);
+  --accent-foreground: oklch(0.28 0.15 155);
+  --cyan-glow: oklch(0.75 0.16 165);
+}
+html.dark.theme-emerald {
+  --primary: oklch(0.68 0.19 155);
+  --primary-foreground: oklch(0.10 0.03 155);
+  --ring: oklch(0.68 0.19 155);
+  --accent: oklch(0.20 0.05 155);
+  --accent-foreground: oklch(0.85 0.12 155);
+  --cyan-glow: oklch(0.72 0.17 165);
+}
+
+/* 🟠 Theme 3: Saffron Amber (Vibrant Energy) */
+html.theme-amber {
+  --primary: oklch(0.62 0.19 45);
+  --primary-foreground: oklch(0.99 0 0);
+  --ring: oklch(0.62 0.19 45);
+  --accent: oklch(0.95 0.05 55);
+  --accent-foreground: oklch(0.35 0.16 45);
+  --cyan-glow: oklch(0.78 0.16 70);
+}
+html.dark.theme-amber {
+  --primary: oklch(0.72 0.19 50);
+  --primary-foreground: oklch(0.12 0.03 45);
+  --ring: oklch(0.72 0.19 50);
+  --accent: oklch(0.24 0.06 45);
+  --accent-foreground: oklch(0.88 0.12 55);
+  --cyan-glow: oklch(0.75 0.16 65);
+}
+
+/* 🟣 Theme 4: Royal Violet (Futuristic Studio Purple) */
+html.theme-purple {
+  --primary: oklch(0.56 0.24 295);
+  --primary-foreground: oklch(0.99 0 0);
+  --ring: oklch(0.56 0.24 295);
+  --accent: oklch(0.94 0.05 295);
+  --accent-foreground: oklch(0.35 0.18 295);
+  --cyan-glow: oklch(0.75 0.18 310);
+}
+html.dark.theme-purple {
+  --primary: oklch(0.68 0.22 295);
+  --primary-foreground: oklch(0.10 0.03 295);
+  --ring: oklch(0.68 0.22 295);
+  --accent: oklch(0.22 0.06 295);
+  --accent-foreground: oklch(0.88 0.12 295);
+  --cyan-glow: oklch(0.72 0.18 310);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  opacity: 0.3;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Checkerboard background for transparent GIF visualizer */
+.checkerboard-bg {
+  background-color: var(--card);
+  background-image: linear-gradient(45deg, var(--muted) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--muted) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--muted) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--muted) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+

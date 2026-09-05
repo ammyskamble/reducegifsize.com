@@ -1,0 +1,93 @@
+---
+// src/components/GuideSection.astro
+---
+
+<section id="guide" class="w-full max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8 space-y-10">
+  <div class="text-center space-y-3 max-w-2xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold">
+      <span>움짤 압축 꿀팁 & 노하우</span>
+    </div>
+    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+      화질 손상 없이 GIF 용량을 획기적으로 줄이는 방법
+    </h2>
+    <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+      애니메이션 GIF의 파일 크기를 줄일 때 어떤 옵션을 조절해야 최적의 결과물을 얻을 수 있는지 핵심 가이드를 확인하세요.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    
+    <!-- Step 1 -->
+    <div class="p-6 rounded-3xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-mono font-bold text-lg">
+        01
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-base font-bold text-foreground">
+          해상도(가로/세로) 최적화
+        </h3>
+        <p class="text-xs text-muted-foreground leading-relaxed">
+          GIF 용량의 대부분은 총 픽셀 수에 비례합니다. 가로/세로를 50% 줄이면 전체 면적은 1/4로 줄어들어 파일 용량이 60%~75% 급감합니다.
+        </p>
+      </div>
+      <div class="p-3 rounded-xl bg-muted/30 border border-border text-[11px] text-muted-foreground font-mono">
+        추천: 모바일 화면 기준 480px~600px
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="p-6 rounded-3xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-cyan-glow/15 text-cyan-glow flex items-center justify-center font-mono font-bold text-lg">
+        02
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-base font-bold text-foreground">
+          컬러 팔레트 감축 (256 → 128/64)
+        </h3>
+        <p class="text-xs text-muted-foreground leading-relaxed">
+          GIF는 기본적으로 최대 256가지 색상만 담을 수 있는 인덱스 컬러 형식입니다. 색상 수를 128색 또는 64색으로 줄이면 육안상 화질 차이는 거의 없이 용량이 30% 절약됩니다.
+        </p>
+      </div>
+      <div class="p-3 rounded-xl bg-muted/30 border border-border text-[11px] text-muted-foreground font-mono">
+        추천: 실사 움짤은 128색, 텍스트/도안은 64색
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="p-6 rounded-3xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono font-bold text-lg">
+        03
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-base font-bold text-foreground">
+          프레임 스킵 (Subsampling)
+        </h3>
+        <p class="text-xs text-muted-foreground leading-relaxed">
+          초당 30프레임 이상 고주사율 GIF는 2프레임마다 1장을 건너뛰어도 자연스럽게 움직입니다. 본 툴은 건너뛴 프레임의 시간을 보정하여 총 재생 시간을 완벽히 유지합니다.
+        </p>
+      </div>
+      <div class="p-3 rounded-xl bg-muted/30 border border-border text-[11px] text-muted-foreground font-mono">
+        효과: 용량 즉시 50% 절감
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="p-6 rounded-3xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 space-y-4">
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-mono font-bold text-lg">
+        04
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-base font-bold text-foreground">
+          디더링(Dithering) 제어
+        </h3>
+        <p class="text-xs text-muted-foreground leading-relaxed">
+          플로이드-스타인버그 디더링은 부드러운 그라데이션을 표현하지만 파일 크기를 약간 키웁니다. 단색 배경이나 일러스트 움짤은 디더링을 끄면 추가 용량 절감이 가능합니다.
+        </p>
+      </div>
+      <div class="p-3 rounded-xl bg-muted/30 border border-border text-[11px] text-muted-foreground font-mono">
+        팁: 애니메이션/아이콘은 디더링 OFF 추천
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,37 @@
+{
+  "name": "reducegifsize",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Ultra-fast browser-based GIF resizer and optimizer targeted for South Korea and global users.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "astro build && wrangler pages deploy dist --project-name reducegifsize --branch=main --commit-dirty=true"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.4",
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/jszip": "^3.4.0",
+    "@types/omggif": "^1.0.4",
+    "astro": "^7.2.9",
+    "gifenc": "^1.0.3",
+    "jszip": "^3.10.1",
+    "lucide-react": "^1.38.0",
+    "omggif": "^1.0.10",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwindcss": "^4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "wrangler": "^4.127.1"
+  }
+}
