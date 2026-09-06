@@ -20,6 +20,13 @@ export default defineConfig({
   },
   integrations: [
     react(),
-    sitemap()
+    sitemap({
+      namespaces: {
+        news: false,
+        xhtml: false,
+        image: false,
+        video: false,
+      },
+    })
   ]
 });
