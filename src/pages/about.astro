@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 const pageTitle = "서비스 소개 (About Us) - Reduce GIF Size";
 const pageDescription = "Reduce GIF Size의 설립 취지, 한국 및 글로벌 사용자를 위한 고속 GIF 압축 엔진, 개인정보 제로-서버 원칙과 서비스 투명성을 소개합니다.";
-const canonicalUrl = "https://reducegifsize.com/about";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
 ---
 
 <!doctype html>

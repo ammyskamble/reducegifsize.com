@@ -49,10 +49,12 @@ import { PLATFORM_PRESETS } from '../data/presets';
                 {preset.width} × {preset.height} px
               </td>
               <td class="py-4 px-4 font-mono font-bold text-primary whitespace-nowrap">
-                {preset.maxSizeMb} MB 이하
+                {preset.maxSizeKb && preset.maxSizeKb < 1024
+                  ? `${preset.maxSizeKb} KB`
+                  : `${preset.maxSizeMb || (preset.maxSizeKb ? Math.round(preset.maxSizeKb / 1024) : 10)} MB`} 이하
               </td>
               <td class="py-4 px-4 font-mono text-muted-foreground text-xs whitespace-nowrap">
-                {preset.recommendedColors}색상 · {preset.recommendedSkip === 2 ? '2프레임 스킵' : '전체 프레임'}
+                {preset.recommendedColors}색상 · {preset.recommendedSkip === 2 ? '2프레임 스킵' : preset.recommendedSkip === 3 ? '3프레임 스킵' : '전체 프레임'}
               </td>
               <td class="py-4 px-4 sm:px-6 text-right whitespace-nowrap">
                 <button
@@ -88,6 +90,7 @@ import { PLATFORM_PRESETS } from '../data/presets';
     btn.addEventListener('click', (e) => {
       const id = e.currentTarget.getAttribute('data-preset-btn');
       if (id) {
+        window.dispatchEvent(new CustomEvent('app:preset-select', { detail: id }));
         window.dispatchEvent(new CustomEvent('app:select-preset', { detail: id }));
       }
     });

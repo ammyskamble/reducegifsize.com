@@ -7,6 +7,9 @@ import type {
   ResizeOptions,
   OptimizationOptions,
   EncodedGifResult,
+  PaletteColors,
+  FrameSkipMode,
+  ColorFormat,
 } from '../types';
 
 function createGifReader(bytes: Uint8Array) {
@@ -167,7 +170,7 @@ export async function decodeGif(
 }
 
 /**
- * Resizes and optimizes an animated GIF using client-side Canvas and gifenc.
+ * Resizes, trims, and optimizes an animated GIF using client-side Canvas and gifenc.
  */
 export async function encodeOptimizedGif(
   decodedGif: DecodedGif,
@@ -176,13 +179,28 @@ export async function encodeOptimizedGif(
   onProgress?: (progress0to100: number) => void
 ): Promise<EncodedGifResult> {
   const startTime = performance.now();
-  const { frames } = decodedGif;
+  let sourceFrames = [...decodedGif.frames];
+
+  // 1. Frame Trimming (Trim Start / End)
+  const trimStart = Math.max(0, Math.min(optOpts.trimStartFrame ?? 0, sourceFrames.length - 1));
+  const trimEnd = Math.max(trimStart, Math.min(optOpts.trimEndFrame ?? (sourceFrames.length - 1), sourceFrames.length - 1));
+  sourceFrames = sourceFrames.slice(trimStart, trimEnd + 1);
+
+  if (sourceFrames.length === 0) {
+    sourceFrames = [decodedGif.frames[0]];
+  }
+
+  // 2. Reverse Animation (if enabled)
+  if (optOpts.reverseAnimation) {
+    sourceFrames.reverse();
+  }
 
   const targetW = Math.max(16, Math.round(resizeOpts.targetWidth));
   const targetH = Math.max(16, Math.round(resizeOpts.targetHeight));
-  const frameSkip = optOpts.frameSkip || 1;
-  const maxColors = optOpts.maxColors || 256;
+  const frameSkip = Math.max(1, optOpts.frameSkip || 1);
+  const maxColors = optOpts.maxColors || 128;
   const speedMultiplier = optOpts.speedMultiplier || 1.0;
+  const requestedFormat = optOpts.colorFormat || 'rgb565';
 
   interface TargetFrame {
     rgba: Uint8ClampedArray;
@@ -192,14 +210,15 @@ export async function encodeOptimizedGif(
   const framesToEncode: TargetFrame[] = [];
   let accumulatedDelay = 0;
 
-  for (let i = 0; i < frames.length; i++) {
-    accumulatedDelay += frames[i].delayMs;
-    const isKeyFrame = i % frameSkip === 0 || i === frames.length - 1;
+  // 3. Subsampling with cumulative duration preservation
+  for (let i = 0; i < sourceFrames.length; i++) {
+    accumulatedDelay += sourceFrames[i].delayMs;
+    const isKeyFrame = i % frameSkip === 0 || i === sourceFrames.length - 1;
 
     if (isKeyFrame) {
       const finalDelay = Math.max(20, Math.round(accumulatedDelay / speedMultiplier));
       framesToEncode.push({
-        rgba: frames[i].rgbaData,
+        rgba: sourceFrames[i].rgbaData,
         delayMs: finalDelay,
       });
       accumulatedDelay = 0;
@@ -245,7 +264,10 @@ export async function encodeOptimizedGif(
       }
     }
 
-    const format = hasTransparentPixels ? 'rgba4444' : 'rgb565';
+    // Format selection
+    const format = hasTransparentPixels || requestedFormat === 'rgba4444'
+      ? 'rgba4444'
+      : requestedFormat;
 
     const palette = quantizeColors(scaledRgba, maxColors, {
       format,
@@ -311,6 +333,97 @@ export async function encodeOptimizedGif(
 }
 
 /**
+ * Smart Solver: Calculates optimal settings to hit a target file size (e.g. Discord 256KB, 512KB, 10MB)
+ */
+export function calculateOptimalTargetSettings(
+  decodedGif: DecodedGif,
+  targetBytes: number
+): {
+  targetWidth: number;
+  targetHeight: number;
+  percentage: number;
+  maxColors: PaletteColors;
+  frameSkip: FrameSkipMode;
+  colorFormat: ColorFormat;
+} {
+  const currentBytes = decodedGif.originalFileSizeBytes;
+  const ratio = targetBytes / currentBytes;
+  const origW = decodedGif.width;
+  const origH = decodedGif.height;
+
+  // If file is already smaller than target, gentle compression
+  if (ratio >= 1) {
+    return {
+      targetWidth: origW,
+      targetHeight: origH,
+      percentage: 100,
+      maxColors: 256,
+      frameSkip: 1,
+      colorFormat: 'rgb565',
+    };
+  }
+
+  // Extreme compression needed (e.g. Discord Emoji 256KB or Sticker 512KB)
+  if (ratio < 0.15 || targetBytes <= 262144) {
+    // Cap dimensions to 128px if targeting 256KB or less
+    const maxDim = targetBytes <= 262144 ? 128 : 320;
+    const scale = Math.min(1, maxDim / Math.max(origW, origH));
+    const targetW = Math.max(32, Math.round(origW * scale));
+    const targetH = Math.max(32, Math.round(origH * scale));
+
+    return {
+      targetWidth: targetW,
+      targetHeight: targetH,
+      percentage: Math.max(10, Math.round(scale * 100)),
+      maxColors: 64,
+      frameSkip: 2,
+      colorFormat: 'rgba4444',
+    };
+  }
+
+  // Aggressive compression (ratio 0.15 - 0.40)
+  if (ratio < 0.4) {
+    const scale = Math.max(0.4, Math.sqrt(ratio * 1.3));
+    const targetW = Math.max(120, Math.round(origW * scale));
+    const targetH = Math.max(120, Math.round(origH * scale));
+    return {
+      targetWidth: targetW,
+      targetHeight: targetH,
+      percentage: Math.round(scale * 100),
+      maxColors: 96,
+      frameSkip: 2,
+      colorFormat: 'rgb565',
+    };
+  }
+
+  // Moderate compression (ratio 0.40 - 0.75)
+  if (ratio < 0.75) {
+    const scale = Math.max(0.65, Math.sqrt(ratio * 1.15));
+    const targetW = Math.max(200, Math.round(origW * scale));
+    const targetH = Math.max(200, Math.round(origH * scale));
+    return {
+      targetWidth: targetW,
+      targetHeight: targetH,
+      percentage: Math.round(scale * 100),
+      maxColors: 128,
+      frameSkip: 1,
+      colorFormat: 'rgb565',
+    };
+  }
+
+  // Light compression (ratio 0.75 - 0.99)
+  const scale = Math.max(0.85, Math.sqrt(ratio));
+  return {
+    targetWidth: Math.round(origW * scale),
+    targetHeight: Math.round(origH * scale),
+    percentage: Math.round(scale * 100),
+    maxColors: 192,
+    frameSkip: 1,
+    colorFormat: 'rgb565',
+  };
+}
+
+/**
  * Creates a colorful bouncing sample animated GIF in-memory for zero-friction testing.
  */
 export async function createSampleGif(): Promise<ArrayBuffer> {
@@ -329,39 +442,42 @@ export async function createSampleGif(): Promise<ArrayBuffer> {
     const angle = progress * Math.PI * 2;
 
     const bgGrad = ctx.createLinearGradient(0, 0, width, height);
-    bgGrad.addColorStop(0, '#0f172a');
-    bgGrad.addColorStop(1, '#1e1b4b');
+    bgGrad.addColorStop(0, '#090d16');
+    bgGrad.addColorStop(1, '#131b2e');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, width, height);
 
+    // Ambient glow circles
     const cx = width / 2 + Math.cos(angle) * 70;
     const cy = height / 2 + Math.sin(angle * 2) * 50;
-    const radGrad = ctx.createRadialGradient(cx, cy, 5, cx, cy, 65);
+    const radGrad = ctx.createRadialGradient(cx, cy, 5, cx, cy, 75);
     radGrad.addColorStop(0, '#38bdf8');
     radGrad.addColorStop(0.5, '#6366f1');
     radGrad.addColorStop(1, 'transparent');
     ctx.fillStyle = radGrad;
     ctx.beginPath();
-    ctx.arc(cx, cy, 65, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 75, 0, Math.PI * 2);
     ctx.fill();
 
+    // Center pulsating core
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
     ctx.arc(cx, cy, 14, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#e2e8f0';
+    // High contrast typography
+    ctx.fillStyle = '#f8fafc';
     ctx.font = 'bold 22px Inter, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('Reduce GIF Size', width / 2, height / 2 - 15);
+    ctx.fillText('GifResizetool.com', width / 2, height / 2 - 18);
 
     ctx.fillStyle = '#38bdf8';
-    ctx.font = 'bold 16px "JetBrains Mono", monospace';
-    ctx.fillText(`Frame ${i + 1} / ${totalFrames}`, width / 2, height / 2 + 20);
+    ctx.font = 'bold 15px "JetBrains Mono", monospace';
+    ctx.fillText(`Frame ${i + 1} / ${totalFrames}`, width / 2, height / 2 + 18);
 
     ctx.fillStyle = '#94a3b8';
     ctx.font = '12px sans-serif';
-    ctx.fillText('한국어 GIF 용량 줄이기 데모', width / 2, height / 2 + 50);
+    ctx.fillText('Ultra-fast GIF Engine Demo', width / 2, height / 2 + 48);
 
     const imgData = ctx.getImageData(0, 0, width, height);
     const rgba = new Uint8Array(imgData.data.buffer);

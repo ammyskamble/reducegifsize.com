@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 const pageTitle = "개인정보처리방침 (Privacy Policy) - Reduce GIF Size";
 const pageDescription = "Reduce GIF Size의 개인정보처리방침, Google AdSense 광고 쿠키 고지, GDPR/CCPA 권리 및 서버 미전송 100% 로컬 보안 정책을 안내합니다.";
-const canonicalUrl = "https://reducegifsize.com/privacy";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
 ---
 
 <!doctype html>

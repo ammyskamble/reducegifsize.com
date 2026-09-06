@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 const pageTitle = "이용약관 (Terms of Service) - Reduce GIF Size";
 const pageDescription = "Reduce GIF Size의 이용 약관, 저작권 소유권 규정, 사용 준수 사항, 광고 정책 및 법적 면책 조항을 안내합니다.";
-const canonicalUrl = "https://reducegifsize.com/terms";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
 ---
 
 <!doctype html>

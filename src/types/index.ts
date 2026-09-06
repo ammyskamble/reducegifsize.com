@@ -24,7 +24,7 @@ export interface DecodedGif {
   originalFileName: string;
 }
 
-export type ResizeMode = 'dimensions' | 'percentage' | 'preset';
+export type ResizeMode = 'dimensions' | 'percentage' | 'preset' | 'target';
 
 export interface ResizeOptions {
   mode: ResizeMode;
@@ -33,16 +33,22 @@ export interface ResizeOptions {
   keepAspectRatio: boolean;
   percentage: number;
   presetId?: string;
+  targetSizeKb?: number;
 }
 
-export type PaletteColors = 256 | 128 | 64 | 32 | 16;
-export type FrameSkipMode = 1 | 2 | 3; // 1: Keep all (100%), 2: Skip every 2nd (50%), 3: Keep 1 in 3 (33%)
+export type PaletteColors = 256 | 192 | 128 | 96 | 64 | 32 | 16;
+export type FrameSkipMode = 1 | 2 | 3 | 4; // 1: Keep all (100%), 2: Drop 1 in 2 (50%), 3: Keep 1 in 3 (33%), 4: Keep 1 in 4 (25%)
+export type ColorFormat = 'rgb565' | 'rgb444' | 'rgba4444';
 
 export interface OptimizationOptions {
   maxColors: PaletteColors;
   frameSkip: FrameSkipMode;
+  colorFormat: ColorFormat;
   dither: boolean;
-  speedMultiplier: number; // 0.5, 1, 1.25, 1.5, 2
+  speedMultiplier: number; // 0.5, 0.75, 1, 1.25, 1.5, 2
+  reverseAnimation?: boolean;
+  trimStartFrame?: number;
+  trimEndFrame?: number;
 }
 
 export interface EncodedGifResult {
@@ -58,7 +64,7 @@ export interface EncodedGifResult {
 
 export interface PlatformPreset {
   id: string;
-  category: 'korea' | 'social' | 'web';
+  category: 'discord' | 'korea' | 'social' | 'web';
   nameKo: string;
   nameEn: string;
   platformKo: string;
@@ -66,9 +72,13 @@ export interface PlatformPreset {
   width?: number;
   height?: number;
   maxSizeMb?: number;
+  maxSizeKb?: number;
   recommendedColors?: PaletteColors;
   recommendedSkip?: FrameSkipMode;
+  recommendedFormat?: ColorFormat;
   descriptionKo: string;
   descriptionEn: string;
   badge?: string;
 }
+
+export type ComparisonMode = 'split' | 'side' | 'single';
