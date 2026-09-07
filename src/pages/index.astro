@@ -13,8 +13,9 @@ import Footer from '../components/Footer.astro';
 const mainKeyword = "gif 용량 줄이기";
 const pageTitle = "gif 용량 줄이기 & gif 크기 줄이기 | 초고속 온라인 무료 움짤 압축기 (Reduce GIF Size)";
 const pageDescription = "서버 업로드 없이 100% 브라우저 내에서 gif 용량 줄이기 및 gif 크기 줄이기를 무료로 실행하세요. 카카오톡 10MB, 디시인사이드 갤러리, 네이버 블로그 맞춤 프리셋과 초고화질 프레임 최적화 지원.";
-const canonicalUrl = "https://reducegifsize.com/";
-const ogImageUrl = "https://reducegifsize.com/og-image.svg";
+const siteUrl = Astro.site ? Astro.site.href.replace(/\/$/, '') : (process.env.SITE_URL || 'https://reducegifsize.pages.dev');
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
+const ogImageUrl = new URL('/og-image.svg', Astro.site || 'https://reducegifsize.pages.dev').href;
 
 const keywordsContent = [
   "gif 용량 줄이기",
@@ -47,9 +48,9 @@ const schemaJson = {
   "@graph": [
     {
       "@type": "WebApplication",
-      "@id": "https://reducegifsize.com/#app",
+      "@id": `${siteUrl}/#app`,
       "name": "Reduce GIF Size - gif 용량 줄이기 및 크기 조절",
-      "url": "https://reducegifsize.com/",
+      "url": `${siteUrl}/`,
       "description": pageDescription,
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All modern browsers (Windows, macOS, Android, iOS)",
@@ -95,7 +96,7 @@ const schemaJson = {
     },
     {
       "@type": "FAQPage",
-      "@id": "https://reducegifsize.com/#faq",
+      "@id": `${siteUrl}/#faq`,
       "mainEntity": allFaqEntities
     }
   ]
@@ -127,13 +128,8 @@ const schemaJson = {
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-
-    <!-- Hreflang Tags for Multi-Language SEO -->
-    <link rel="alternate" hreflang="ko-KR" href="https://reducegifsize.com/" />
-    <link rel="alternate" hreflang="en" href="https://reducegifsize.com/" />
-    <link rel="alternate" hreflang="x-default" href="https://reducegifsize.com/" />
 
     <!-- Open Graph (OG) Meta Tags -->
     <meta property="og:type" content="website" />

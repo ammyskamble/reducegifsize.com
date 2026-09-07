@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 const pageTitle = "문의하기 (Contact Us) - Reduce GIF Size";
 const pageDescription = "Reduce GIF Size 운영팀에 기능 제안, 오류 제보, 광고 제휴 및 일반 문의를 남겨주세요. 24~48시간 이내에 성실히 답변드립니다.";
-const canonicalUrl = "https://reducegifsize.com/contact";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
 ---
 
 <!doctype html>
@@ -29,6 +29,8 @@ const canonicalUrl = "https://reducegifsize.com/contact";
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
