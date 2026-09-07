@@ -35,7 +35,7 @@ import { PLATFORM_PRESETS } from '../data/presets';
 import { getTranslation } from '../data/i18n';
 import { decodeGif, encodeOptimizedGif, createSampleGif, formatBytes } from '../utils/gifEngine';
 
-export const GifResizerTool: React.FC = () => {
+export function GifResizerTool() {
   // Language state (persisted or default 'ko')
   const [lang, setLang] = useState<Language>('ko');
   const t = getTranslation(lang);
@@ -1038,3 +1038,5 @@ export const GifResizerTool: React.FC = () => {
     </div>
   );
 };
+
+export default GifResizerTool;

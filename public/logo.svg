@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F5F9"/>
+    </linearGradient>
+
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="110" fill="url(#bgGrad)"/>
+
+  <g filter="url(#dropShadow)">
+    <rect x="100" y="80" width="312" height="352" rx="28" fill="url(#cardGrad)"/>
+  </g>
+
+  <rect x="130" y="112" width="28" height="20" rx="4" fill="#CBD5E1"/>
+  <rect x="182" y="112" width="28" height="20" rx="4" fill="#CBD5E1"/>
+  <rect x="242" y="112" width="28" height="20" rx="4" fill="#CBD5E1"/>
+  <rect x="302" y="112" width="28" height="20" rx="4" fill="#CBD5E1"/>
+  <rect x="354" y="112" width="28" height="20" rx="4" fill="#CBD5E1"/>
+
+  <rect x="130" y="160" width="100" height="42" rx="10" fill="#4F46E5"/>
+  <text x="180" y="189" fill="#FFFFFF" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="1.5">GIF</text>
+
+  <g stroke="#0284C7" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 370 170 L 310 230"/>
+    <path d="M 350 230 L 310 230 L 310 190" fill="#0284C7"/>
+
+    <path d="M 142 398 L 202 338"/>
+    <path d="M 162 338 L 202 338 L 202 378" fill="#0284C7"/>
+  </g>
+
+  <rect x="220" y="240" width="162" height="152" rx="16" fill="#E0F2FE" stroke="#0284C7" stroke-width="4" stroke-dasharray="8 6"/>
+
+  <polygon points="290,295 290,335 325,315" fill="#0284C7"/>
+
+  <g filter="url(#dropShadow)">
+    <circle cx="390" cy="385" r="46" fill="#10B981"/>
+    <path d="M 390 360 L 390 405" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 375 392 L 390 407 L 405 392" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

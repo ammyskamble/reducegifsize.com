@@ -2,7 +2,7 @@
 // src/pages/index.astro
 import '../styles/global.css';
 import Header from '../components/Header.astro';
-import { GifResizerTool } from '../components/GifResizerTool';
+import GifResizerTool from '../components/GifResizerTool';
 import PlatformSpecsTable from '../components/PlatformSpecsTable.astro';
 import GuideSection from '../components/GuideSection.astro';
 import SeoContentSection from '../components/SeoContentSection.astro';
@@ -203,7 +203,7 @@ const schemaJson = {
 
       <!-- Interactive Tool Workspace Island -->
       <section id="tool-workspace" class="px-4 sm:px-6 lg:px-8 pb-16 scroll-mt-20">
-        <GifResizerTool client:load />
+        <GifResizerTool client:only="react" />
       </section>
 
       <!-- Korean & Global Platform Specs Table -->
