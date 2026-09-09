@@ -9,6 +9,7 @@ const site = process.env.SITE_URL || 'https://reducegifsize.pages.dev';
 // https://astro.build/config
 export default defineConfig({
   site,
+  trailingSlash: 'always',
   build: {
     inlineStylesheets: 'always'
   },
@@ -21,6 +22,7 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
+      filter: (page) => !page.includes('/404') && !page.includes('/500'),
       namespaces: {
         news: false,
         xhtml: false,
