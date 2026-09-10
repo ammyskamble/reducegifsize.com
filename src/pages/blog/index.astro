@@ -1,0 +1,258 @@
+---
+// src/pages/blog/index.astro
+import '../../styles/global.css';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { BLOG_POSTS } from '../../data/blogs';
+
+const pageTitle = "블로그 & 최적화 가이드 (Blog) | GIF 용량 줄이기 노하우 - Reduce GIF Size";
+const pageDescription = "화질 깨짐 없는 GIF 용량 줄이기, 카카오톡/디시인사이드/네이버 블로그 맞춤 규격, 상세페이지 로딩 속도 향상 노하우와 WebP 변환 가이드를 매일 제공합니다.";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
+
+const categories = [
+  { slug: 'all', label: '전체 보기' },
+  { slug: 'guide', label: '최적화 가이드' },
+  { slug: 'platforms', label: '플랫폼 규격' },
+  { slug: 'ecommerce', label: '이커머스 & 마케팅' },
+  { slug: 'tech', label: '기술 칼럼' },
+];
+
+const featuredPost = BLOG_POSTS.find(p => p.featured) || BLOG_POSTS[0];
+const regularPosts = BLOG_POSTS.filter(p => p.slug !== featuredPost.slug);
+---
+
+<!doctype html>
+<html lang="ko-KR" class="scroll-smooth">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5T8LS7EYQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T5T8LS7EYQ');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+    <Header />
+
+    <main class="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      
+      <!-- Breadcrumb & Header Hero -->
+      <div class="text-center space-y-4 max-w-3xl mx-auto">
+        <nav class="flex items-center justify-center gap-2 text-xs text-muted-foreground font-medium" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-primary transition">홈</a>
+          <span>/</span>
+          <span class="text-foreground font-semibold">블로그 지식 허브</span>
+        </nav>
+
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span>GIF 최적화 지식 & 교육 블로그</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+          GIF 압축 & 웹 성능 <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-cyan-glow">실전 지식 허브</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-muted-foreground leading-relaxed">
+          초보자부터 파워 블로거, 쇼핑몰 상세페이지 기획자까지 누구나 쉽게 이해할 수 있는 
+          화질 보존 압축 노하우, 국내 플랫폼별 최신 규격, 웹 성능 개선 비법을 체계적으로 소개합니다.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex items-center justify-center gap-2 flex-wrap pt-2">
+        {categories.map((cat, idx) => (
+          <button
+            type="button"
+            data-category-btn={cat.slug}
+            class={`category-tab px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition border ${
+              idx === 0
+                ? 'bg-primary text-white border-primary shadow-xs'
+                : 'bg-card text-muted-foreground hover:text-foreground border-border hover:bg-muted/40'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Featured Blog Hero Card -->
+      <section class="p-6 sm:p-10 rounded-3xl border border-primary/30 bg-gradient-to-br from-card via-card to-primary/5 shadow-md hover:shadow-lg transition space-y-6">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="px-3 py-1 rounded-lg bg-primary text-white text-xs font-bold uppercase tracking-wider">
+            추천 가이드
+          </span>
+          <span class="px-2.5 py-1 rounded-lg bg-muted/40 border border-border text-xs text-muted-foreground font-medium">
+            {featuredPost.category}
+          </span>
+          <span class="text-xs text-muted-foreground font-mono">
+            읽는 시간: {featuredPost.readTime} · {featuredPost.date}
+          </span>
+        </div>
+
+        <div class="space-y-3">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight hover:text-primary transition">
+            <a href={`/blog/${featuredPost.slug}/`}>
+              {featuredPost.title}
+            </a>
+          </h2>
+          <p class="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-4xl">
+            {featuredPost.excerpt}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-border/60">
+          <div class="flex items-center gap-2 flex-wrap">
+            {featuredPost.tags.map(tag => (
+              <span class="px-2.5 py-1 rounded-md bg-muted/30 text-[11px] text-muted-foreground font-mono">
+                #{tag}
+              </span>
+            ))}
+          </div>
+
+          <a
+            href={`/blog/${featuredPost.slug}/`}
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white text-xs sm:text-sm font-bold hover:bg-primary/90 transition shadow-sm"
+          >
+            <span>가이드 전체 읽기</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Articles Grid -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg sm:text-xl font-bold text-foreground flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+            <span>전체 가이드 & 아티클</span>
+          </h3>
+          <span class="text-xs text-muted-foreground font-mono" id="post-count">
+            총 {BLOG_POSTS.length}편의 교육 콘텐츠
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="blog-grid">
+          {BLOG_POSTS.map(post => (
+            <article
+              data-post-category={post.categorySlug}
+              class="blog-card p-6 rounded-3xl border border-border bg-card shadow-xs hover:shadow-md hover:border-primary/40 transition-all flex flex-col justify-between space-y-4 group"
+            >
+              <div class="space-y-3">
+                <div class="flex items-center justify-between text-xs text-muted-foreground">
+                  <span class="px-2.5 py-1 rounded-md bg-primary/10 text-primary font-bold text-[11px]">
+                    {post.category}
+                  </span>
+                  <span class="font-mono">{post.readTime} 읽기</span>
+                </div>
+
+                <h4 class="text-base sm:text-lg font-bold text-foreground group-hover:text-primary transition line-clamp-2 leading-snug">
+                  <a href={`/blog/${post.slug}/`}>
+                    {post.title}
+                  </a>
+                </h4>
+
+                <p class="text-xs sm:text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                  {post.excerpt}
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-border/50 flex items-center justify-between text-xs">
+                <span class="text-muted-foreground font-mono">{post.date}</span>
+                <a
+                  href={`/blog/${post.slug}/`}
+                  class="font-semibold text-primary group-hover:underline flex items-center gap-1"
+                >
+                  <span>보기</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="p-8 rounded-3xl bg-muted/30 border border-border text-center space-y-4">
+        <h3 class="text-xl sm:text-2xl font-black text-foreground">
+          지금 바로 여러분의 GIF 용량을 줄여보세요
+        </h3>
+        <p class="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto">
+          서버 전송 없이 브라우저에서 100% 안전하게 처리됩니다. 지금 바로 무료로 경험해 보세요.
+        </p>
+        <div class="pt-2">
+          <a
+            href="/#tool-workspace"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-primary text-white font-bold text-sm shadow-md hover:shadow-lg hover:bg-primary/90 transition"
+          >
+            <span>무료 GIF 리사이저 실행하기</span>
+            <span>⚡</span>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+    <Footer />
+
+    <script is:inline>
+      const categoryButtons = document.querySelectorAll('.category-tab');
+      const blogCards = document.querySelectorAll('.blog-card');
+      const postCount = document.getElementById('post-count');
+
+      categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selected = btn.getAttribute('data-category-btn');
+
+          categoryButtons.forEach(b => {
+            b.classList.remove('bg-primary', 'text-white', 'border-primary', 'shadow-xs');
+            b.classList.add('bg-card', 'text-muted-foreground', 'border-border');
+          });
+          btn.classList.add('bg-primary', 'text-white', 'border-primary', 'shadow-xs');
+          btn.classList.remove('bg-card', 'text-muted-foreground', 'border-border');
+
+          let visibleCount = 0;
+          blogCards.forEach(card => {
+            const cat = card.getAttribute('data-post-category');
+            if (selected === 'all' || cat === selected) {
+              card.classList.remove('hidden');
+              visibleCount++;
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+
+          if (postCount) {
+            postCount.textContent = '총 ' + visibleCount + '편의 교육 콘텐츠';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

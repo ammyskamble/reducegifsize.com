@@ -1,0 +1,238 @@
+---
+// src/pages/blog/[slug].astro
+import '../../styles/global.css';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { BLOG_POSTS, type BlogPost } from '../../data/blogs';
+
+export function getStaticPaths() {
+  return BLOG_POSTS.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+
+const pageTitle = `${post.title} | Reduce GIF Size 블로그`;
+const pageDescription = post.excerpt;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegifsize.pages.dev').href;
+const relatedPosts = BLOG_POSTS.filter(p => p.slug !== post.slug).slice(0, 3);
+---
+
+<!doctype html>
+<html lang="ko-KR" class="scroll-smooth">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T5T8LS7EYQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T5T8LS7EYQ');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={pageDescription} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Article Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.title,
+      "description": post.excerpt,
+      "datePublished": post.date,
+      "dateModified": post.date,
+      "author": {
+        "@type": "Organization",
+        "name": "Reduce GIF Size"
+      }
+    })} />
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary">
+    <Header />
+
+    <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-muted-foreground font-medium" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-primary transition">홈</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-primary transition">블로그</a>
+        <span>/</span>
+        <span class="text-foreground font-semibold truncate max-w-xs sm:max-w-md">{post.title}</span>
+      </nav>
+
+      <!-- Post Header -->
+      <header class="space-y-4">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold">
+            {post.category}
+          </span>
+          <span class="text-xs text-muted-foreground font-mono">
+            {post.date} · 읽는 시간 약 {post.readTime}
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-[1.2]">
+          {post.title}
+        </h1>
+
+        <p class="text-base sm:text-lg text-muted-foreground leading-relaxed pt-1">
+          {post.content.lead}
+        </p>
+
+        <!-- Tags -->
+        <div class="flex items-center gap-2 flex-wrap pt-2">
+          {post.tags.map(tag => (
+            <span class="px-2.5 py-1 rounded-md bg-muted/40 border border-border text-xs text-muted-foreground font-mono">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </header>
+
+      <!-- Table of Contents (TOC Navigation) -->
+      <aside class="p-6 rounded-3xl border border-border bg-card/60 shadow-xs space-y-3">
+        <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground">
+          <svg class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+          <span>목차 (빠른 이동)</span>
+        </div>
+        <ul class="space-y-1.5 text-xs sm:text-sm">
+          {post.content.toc.map(item => (
+            <li>
+              <a
+                href={`#${item.id}`}
+                class="text-muted-foreground hover:text-primary hover:underline transition flex items-center gap-2"
+              >
+                <span class="text-primary font-mono text-xs">›</span>
+                <span>{item.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      <!-- Post Body Content -->
+      <article class="space-y-10 text-muted-foreground leading-relaxed text-sm sm:text-base">
+        {post.content.sections.map(section => (
+          <section id={section.id} class="space-y-4 scroll-mt-24">
+            <h2 class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-primary shrink-0"></span>
+              <span>{section.title}</span>
+            </h2>
+
+            <div class="space-y-3">
+              {section.body.map(paragraph => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+
+            {section.tip && (
+              <div class="p-4 rounded-2xl bg-primary/5 border border-primary/20 text-xs sm:text-sm text-foreground flex items-start gap-3">
+                <span class="text-primary font-bold shrink-0 text-base">💡</span>
+                <div class="space-y-1">
+                  <strong class="text-primary font-bold">실전 압축 팁:</strong>
+                  <span>{section.tip}</span>
+                </div>
+              </div>
+            )}
+
+            {section.codeOrTable && section.codeOrTable.type === 'table' && section.codeOrTable.headers && section.codeOrTable.rows && (
+              <div class="overflow-x-auto pt-2">
+                <table class="w-full text-left text-xs border border-border rounded-2xl overflow-hidden">
+                  <thead class="bg-muted/50 text-foreground font-bold">
+                    <tr>
+                      {section.codeOrTable.headers.map(h => (
+                        <th class="p-3 border-b border-border">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-border/60 bg-card">
+                    {section.codeOrTable.rows.map(row => (
+                      <tr>
+                        {row.map((cell, idx) => (
+                          <td class={`p-3 ${idx === 0 ? 'font-bold text-foreground' : 'text-muted-foreground'}`}>
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </section>
+        ))}
+      </article>
+
+      <!-- Embedded Tool Action Banner -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-primary/10 via-card to-cyan-glow/10 border border-primary/25 space-y-3 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="space-y-1 max-w-md">
+          <h3 class="text-lg sm:text-xl font-black text-foreground">
+            지금 바로 여러분의 GIF를 압축해 보세요
+          </h3>
+          <p class="text-xs text-muted-foreground">
+            프로그램 설치 없이 100% 브라우저 내에서 안전하게 가로폭과 프레임을 줄입니다.
+          </p>
+        </div>
+        <a
+          href="/#tool-workspace"
+          class="shrink-0 px-5 py-3 rounded-2xl bg-primary text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg hover:bg-primary/90 transition flex items-center gap-2"
+        >
+          <span>리사이저 툴 열기</span>
+          <span>⚡</span>
+        </a>
+      </div>
+
+      <!-- Related Posts Section -->
+      {relatedPosts.length > 0 && (
+        <section class="space-y-4 pt-8 border-t border-border">
+          <h3 class="text-lg font-bold text-foreground">함께 읽으면 좋은 최적화 가이드</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {relatedPosts.map(rp => (
+              <a
+                href={`/blog/${rp.slug}/`}
+                class="p-4 rounded-2xl border border-border bg-card hover:border-primary/50 transition flex flex-col justify-between space-y-2 group"
+              >
+                <span class="text-[11px] font-bold text-primary">{rp.category}</span>
+                <h4 class="text-xs sm:text-sm font-bold text-foreground group-hover:text-primary transition line-clamp-2">
+                  {rp.title}
+                </h4>
+                <span class="text-[10px] text-muted-foreground font-mono">{rp.readTime} 읽기</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+    </main>
+
+    <Footer />
+  </body>
+</html>

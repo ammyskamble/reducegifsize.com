@@ -12,6 +12,21 @@ export const GET: APIRoute = ({ site }) => {
     <loc>${siteUrl}/about/</loc>
   </url>
   <url>
+    <loc>${siteUrl}/blog/</loc>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/reduce-gif-size-without-losing-quality/</loc>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/korean-platform-gif-upload-limits/</loc>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/ecommerce-smartstore-gif-optimization/</loc>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/why-webp-is-better-than-gif/</loc>
+  </url>
+  <url>
     <loc>${siteUrl}/contact/</loc>
   </url>
   <url>

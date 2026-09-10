@@ -19,6 +19,36 @@ export const GET: APIRoute = ({ site }) => {
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>${siteUrl}/blog/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/reduce-gif-size-without-losing-quality/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/korean-platform-gif-upload-limits/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/ecommerce-smartstore-gif-optimization/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${siteUrl}/blog/why-webp-is-better-than-gif/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>${siteUrl}/contact/</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
