@@ -167,9 +167,33 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://reducegi
           <div class="p-4 rounded-xl bg-card border border-border space-y-1 text-xs sm:text-sm mt-3">
             <p><strong>약관 관련 문의처:</strong> Legal & Policy Team</p>
             <p><strong>공식 이메일:</strong> <a href="mailto:contact@reducegifsize.com" class="text-primary hover:underline font-mono">contact@reducegifsize.com</a></p>
-            <p><strong>온라인 문의:</strong> <a href="/contact" class="text-primary hover:underline">문의하기 페이지</a></p>
+            <p><strong>온라인 문의:</strong> <a href="/contact/" class="text-primary hover:underline">문의하기 페이지</a></p>
           </div>
         </section>
+
+        <!-- Direct Resizer CTA Banner -->
+        <div class="rounded-3xl border border-border bg-gradient-to-br from-primary/10 via-card to-card p-6 sm:p-8 text-center space-y-4 shadow-sm">
+          <h3 class="text-xl sm:text-2xl font-black text-foreground">
+            100% 무료 GIF 리사이저 & 압축기 이용하기
+          </h3>
+          <p class="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto">
+            별도의 회원가입 없이 바로 사용할 수 있으며, 무제한으로 용량 축소 및 플랫폼 규격 맞춤 변환이 가능합니다.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href="/#tool-workspace"
+              class="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-bold text-xs sm:text-sm shadow-md hover:bg-primary/90 transition transform hover:-translate-y-0.5 inline-flex items-center gap-2"
+            >
+              <span>⚡ GIF 리사이저 툴 바로가기</span>
+            </a>
+            <a
+              href="/#presets-table"
+              class="px-5 py-3 rounded-xl border border-border bg-card hover:bg-muted/50 text-foreground font-semibold text-xs sm:text-sm transition inline-flex items-center gap-2"
+            >
+              <span>📋 플랫폼 규격표 확인</span>
+            </a>
+          </div>
+        </div>
 
       </div>
 

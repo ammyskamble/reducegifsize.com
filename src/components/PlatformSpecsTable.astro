@@ -92,6 +92,10 @@ import { PLATFORM_PRESETS } from '../data/presets';
       if (id) {
         window.dispatchEvent(new CustomEvent('app:preset-select', { detail: id }));
         window.dispatchEvent(new CustomEvent('app:select-preset', { detail: id }));
+        const toolEl = document.getElementById('tool-workspace');
+        if (toolEl) {
+          toolEl.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     });
   });

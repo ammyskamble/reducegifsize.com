@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
-const site = process.env.SITE_URL || 'https://reducegifsize.pages.dev';
+const site = 'https://reducegifsize.pages.dev';
 
 // https://astro.build/config
 export default defineConfig({

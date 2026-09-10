@@ -28,6 +28,8 @@ import {
   Target,
   ChevronLeft,
   ChevronRight,
+  CheckCircle2,
+  Bookmark,
 } from 'lucide-react';
 import type {
   Language,
@@ -68,8 +70,12 @@ export function GifResizerTool() {
   const [originalBlobUrl, setOriginalBlobUrl] = useState<string | null>(null);
   const [resultGif, setResultGif] = useState<EncodedGifResult | null>(null);
 
+  // Pending preset selected before file upload
+  const [pendingPreset, setPendingPreset] = useState<PlatformPreset | null>(null);
+  const [activePresetCategory, setActivePresetCategory] = useState<string>('all');
+
   // Active workspace tab
-  const [activeTab, setActiveTab] = useState<'target' | 'resize' | 'compress' | 'speed'>('target');
+  const [activeTab, setActiveTab] = useState<'presets' | 'target' | 'resize' | 'compress' | 'speed'>('presets');
 
   // Comparison view mode
   const [comparisonMode, setComparisonMode] = useState<ComparisonMode>('split');
@@ -122,20 +128,29 @@ export function GifResizerTool() {
     return () => window.removeEventListener('app:lang-change' as any, handleLangChange);
   }, []);
 
-  // Preset selection from platform table
+  // Preset selection from platform table or global events
   useEffect(() => {
     const handlePresetSelect = (e: CustomEvent<string>) => {
       const presetId = e.detail;
       const preset = PLATFORM_PRESETS.find((p) => p.id === presetId);
-      if (preset && decodedGif) {
-        applyPreset(preset);
+      if (preset) {
+        if (decodedGif) {
+          applyPreset(preset, true);
+        } else {
+          setPendingPreset(preset);
+          setSelectedPresetId(preset.id);
+        }
         const toolEl = document.getElementById('tool-workspace');
         if (toolEl) toolEl.scrollIntoView({ behavior: 'smooth' });
       }
     };
     window.addEventListener('app:preset-select' as any, handlePresetSelect);
-    return () => window.removeEventListener('app:preset-select' as any, handlePresetSelect);
-  }, [decodedGif]);
+    window.addEventListener('app:select-preset' as any, handlePresetSelect);
+    return () => {
+      window.removeEventListener('app:preset-select' as any, handlePresetSelect);
+      window.removeEventListener('app:select-preset' as any, handlePresetSelect);
+    };
+  }, [decodedGif, aspectRatioLocked, maxColors, frameSkip, colorFormat, dither, speedMultiplier, reverseAnimation, trimStartFrame, trimEndFrame, lang]);
 
   // Global paste handler (Ctrl+V anywhere on the page)
   useEffect(() => {
@@ -171,8 +186,6 @@ export function GifResizerTool() {
       const decoded = await decodeGif(arrayBuffer, file.name);
 
       setDecodedGif(decoded);
-      setWidth(decoded.width);
-      setHeight(decoded.height);
       setTrimStartFrame(0);
       setTrimEndFrame(decoded.frames.length - 1);
       setCurrentFrameIdx(0);
@@ -182,23 +195,63 @@ export function GifResizerTool() {
       const origUrl = URL.createObjectURL(originalBlob);
       setOriginalBlobUrl(origUrl);
 
-      // Automatically run first pass with balanced settings
-      setStatusMessage(t.encoding);
+      // Determine initial settings (check if a preset was selected before upload)
+      let initialW = decoded.width;
+      let initialH = decoded.height;
+      let initialColors: PaletteColors = 128;
+      let initialSkip: FrameSkipMode = 1;
+      let initialFormat: ColorFormat = 'rgb565';
+      let statusText = t.encoding;
+
+      if (pendingPreset) {
+        setSelectedPresetId(pendingPreset.id);
+        if (pendingPreset.width && pendingPreset.height) {
+          if (aspectRatioLocked) {
+            const srcRatio = decoded.width / decoded.height;
+            const targetRatio = pendingPreset.width / pendingPreset.height;
+            if (srcRatio > targetRatio) {
+              initialW = pendingPreset.width;
+              initialH = Math.max(16, Math.round(pendingPreset.width / srcRatio));
+            } else {
+              initialH = pendingPreset.height;
+              initialW = Math.max(16, Math.round(pendingPreset.height * srcRatio));
+            }
+          } else {
+            initialW = pendingPreset.width;
+            initialH = pendingPreset.height;
+          }
+        }
+        if (pendingPreset.recommendedColors) initialColors = pendingPreset.recommendedColors;
+        if (pendingPreset.recommendedSkip) initialSkip = pendingPreset.recommendedSkip;
+        if (pendingPreset.recommendedFormat) initialFormat = pendingPreset.recommendedFormat;
+
+        statusText = `${lang === 'ko' ? pendingPreset.nameKo : pendingPreset.nameEn} 적용 중...`;
+        setPendingPreset(null);
+      }
+
+      setWidth(initialW);
+      setHeight(initialH);
+      setMaxColors(initialColors);
+      setFrameSkip(initialSkip);
+      setColorFormat(initialFormat);
+
+      // Automatically run first pass
+      setStatusMessage(statusText);
       setProgressPct(40);
 
       const res = await encodeOptimizedGif(
         decoded,
         {
           mode: 'dimensions',
-          targetWidth: decoded.width,
-          targetHeight: decoded.height,
-          keepAspectRatio: true,
+          targetWidth: initialW,
+          targetHeight: initialH,
+          keepAspectRatio: aspectRatioLocked,
           percentage: 100,
         },
         {
-          maxColors: 128,
-          frameSkip: 1,
-          colorFormat: 'rgb565',
+          maxColors: initialColors,
+          frameSkip: initialSkip,
+          colorFormat: initialFormat,
           dither: true,
           speedMultiplier: 1.0,
           reverseAnimation: false,
@@ -291,6 +344,7 @@ export function GifResizerTool() {
   const handleApplyTargetSolve = async (targetBytes: number) => {
     if (!decodedGif) return;
 
+    setResizeMode('dimensions');
     const settings = calculateOptimalTargetSettings(decodedGif, targetBytes);
     setWidth(settings.targetWidth);
     setHeight(settings.targetHeight);
@@ -335,32 +389,87 @@ export function GifResizerTool() {
     }
   };
 
-  // Apply preset
-  const applyPreset = (preset: PlatformPreset) => {
-    if (!decodedGif) return;
+  // Apply preset with automatic re-encoding
+  const applyPreset = async (preset: PlatformPreset, autoRun = true) => {
     setSelectedPresetId(preset.id);
     setResizeMode('dimensions');
+
+    if (!decodedGif) {
+      setPendingPreset(preset);
+      const toolEl = document.getElementById('tool-workspace');
+      if (toolEl) toolEl.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    let targetW = preset.width || decodedGif.width;
+    let targetH = preset.height || decodedGif.height;
 
     if (preset.width && preset.height) {
       if (aspectRatioLocked) {
         const srcRatio = decodedGif.width / decodedGif.height;
         const targetRatio = preset.width / preset.height;
         if (srcRatio > targetRatio) {
-          setWidth(preset.width);
-          setHeight(Math.round(preset.width / srcRatio));
+          targetW = preset.width;
+          targetH = Math.max(16, Math.round(preset.width / srcRatio));
         } else {
-          setHeight(preset.height);
-          setWidth(Math.round(preset.height * srcRatio));
+          targetH = preset.height;
+          targetW = Math.max(16, Math.round(preset.height * srcRatio));
         }
       } else {
-        setWidth(preset.width);
-        setHeight(preset.height);
+        targetW = preset.width;
+        targetH = preset.height;
       }
     }
 
+    const newColors = preset.recommendedColors || maxColors;
+    const newSkip = preset.recommendedSkip || frameSkip;
+    const newFormat = preset.recommendedFormat || colorFormat;
+
+    setWidth(targetW);
+    setHeight(targetH);
     if (preset.recommendedColors) setMaxColors(preset.recommendedColors);
     if (preset.recommendedSkip) setFrameSkip(preset.recommendedSkip);
     if (preset.recommendedFormat) setColorFormat(preset.recommendedFormat);
+
+    if (autoRun) {
+      setIsLoading(true);
+      const presetName = lang === 'ko' ? preset.nameKo : preset.nameEn;
+      setStatusMessage(`${presetName} ${lang === 'ko' ? '규격 자동 적용 중...' : 'Auto-applying...'}`);
+      setErrorMsg(null);
+      setProgressPct(10);
+
+      try {
+        const res = await encodeOptimizedGif(
+          decodedGif,
+          {
+            mode: 'dimensions',
+            targetWidth: targetW,
+            targetHeight: targetH,
+            keepAspectRatio: aspectRatioLocked,
+            percentage: 100,
+          },
+          {
+            maxColors: newColors,
+            frameSkip: newSkip,
+            colorFormat: newFormat,
+            dither,
+            speedMultiplier,
+            reverseAnimation,
+            trimStartFrame,
+            trimEndFrame,
+          },
+          (pct) => setProgressPct(pct)
+        );
+
+        setResultGif(res);
+      } catch (err: any) {
+        console.error(err);
+        setErrorMsg(err.message || 'Preset optimization failed.');
+      } finally {
+        setIsLoading(false);
+        setStatusMessage('');
+      }
+    }
   };
 
   // Dimension input changes with aspect ratio sync
@@ -589,6 +698,27 @@ export function GifResizerTool() {
               </p>
             </div>
 
+            {/* Pending Preset Indicator if clicked from table before uploading */}
+            {pendingPreset && (
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/30 text-primary text-xs font-semibold shadow-xs">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <span>
+                  선택된 규격: <strong className="underline">{lang === 'ko' ? pendingPreset.nameKo : pendingPreset.nameEn}</strong> (업로드 시 자동 적용)
+                </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPendingPreset(null);
+                  }}
+                  className="ml-1 px-1.5 py-0.5 rounded bg-primary/20 hover:bg-primary/30 text-primary font-bold text-xs transition"
+                  title="프리셋 해제"
+                >
+                  취소
+                </button>
+              </div>
+            )}
+
             {/* Paste Badge & Quick Presets info */}
             <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-muted text-muted-foreground border border-border">
@@ -676,7 +806,20 @@ export function GifResizerTool() {
             {/* =================================================================== */}
             <div className="lg:col-span-5 space-y-4">
               {/* Tab Selector Header */}
-              <div className="grid grid-cols-4 gap-1 p-1 bg-muted/60 rounded-xl border border-border text-xs font-semibold">
+              <div className="grid grid-cols-5 gap-1 p-1 bg-muted/60 rounded-xl border border-border text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('presets')}
+                  className={`py-2 px-1 rounded-lg text-center transition flex flex-col items-center gap-1 ${
+                    activeTab === 'presets'
+                      ? 'bg-card text-foreground shadow-xs font-bold'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Bookmark className="w-3.5 h-3.5 text-indigo-500" />
+                  <span className="truncate">플랫폼 규격</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={() => setActiveTab('target')}
@@ -729,6 +872,105 @@ export function GifResizerTool() {
                   <span className="truncate">속도/트림</span>
                 </button>
               </div>
+
+              {/* Tab 0: Platform Presets */}
+              {activeTab === 'presets' && (
+                <div className="p-5 rounded-2xl bg-card border border-border shadow-sm space-y-4">
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-bold text-foreground flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <Bookmark className="w-4 h-4 text-indigo-500" />
+                        {t.modePreset || '플랫폼 맞춤 프리셋'}
+                      </span>
+                      <span className="text-[11px] font-normal text-primary">
+                        클릭 즉시 자동 최적화
+                      </span>
+                    </h4>
+                    <p className="text-xs text-muted-foreground">
+                      {t.selectPresetPrompt || '원하는 플랫폼을 선택하면 권장 해상도와 최적 압축률이 즉시 자동 적용됩니다.'}
+                    </p>
+                  </div>
+
+                  {/* Category Filter Pills */}
+                  <div className="flex flex-wrap gap-1 p-1 bg-muted/60 rounded-xl text-[11px] font-semibold">
+                    {[
+                      { id: 'all', label: '전체' },
+                      { id: 'discord', label: '디스코드' },
+                      { id: 'korea', label: '국내 (카톡/디시/네이버)' },
+                      { id: 'social', label: 'SNS' },
+                      { id: 'web', label: '웹 배너' },
+                    ].map((cat) => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setActivePresetCategory(cat.id)}
+                        className={`px-2.5 py-1 rounded-lg transition ${
+                          activePresetCategory === cat.id
+                            ? 'bg-card text-foreground shadow-xs font-bold'
+                            : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Presets List */}
+                  <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
+                    {PLATFORM_PRESETS.filter((p) => activePresetCategory === 'all' || p.category === activePresetCategory).map((preset) => {
+                      const isSelected = selectedPresetId === preset.id;
+                      return (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          onClick={() => applyPreset(preset, true)}
+                          className={`w-full text-left p-3 rounded-xl border transition group flex items-center justify-between cursor-pointer ${
+                            isSelected
+                              ? 'border-primary bg-primary/10 shadow-xs ring-1 ring-primary/40'
+                              : 'border-border hover:border-primary/60 bg-muted/20 hover:bg-accent/40'
+                          }`}
+                        >
+                          <div className="space-y-1 min-w-0 pr-2">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className={`text-xs font-bold transition ${isSelected ? 'text-primary' : 'text-foreground group-hover:text-primary'}`}>
+                                {lang === 'ko' ? preset.nameKo : preset.nameEn}
+                              </span>
+                              {preset.badge && (
+                                <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-primary/15 text-primary">
+                                  {preset.badge}
+                                </span>
+                              )}
+                              {isSelected && (
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  적용됨
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-[11px] text-muted-foreground truncate">
+                              {lang === 'ko' ? preset.descriptionKo : preset.descriptionEn}
+                            </div>
+                            <div className="text-[10px] font-mono text-muted-foreground flex items-center gap-2">
+                              <span>{preset.width}×{preset.height}px</span>
+                              <span>·</span>
+                              <span>{preset.recommendedColors}색상</span>
+                              <span>·</span>
+                              <span>{preset.recommendedSkip === 2 ? '2프레임 스킵' : preset.recommendedSkip === 3 ? '3프레임 스킵' : '전체 프레임'}</span>
+                            </div>
+                          </div>
+                          <div className="shrink-0 text-right">
+                            <span className="px-2 py-1 rounded-md bg-card border border-border text-primary text-xs font-mono font-bold">
+                              {preset.maxSizeKb && preset.maxSizeKb < 1024
+                                ? `${preset.maxSizeKb} KB`
+                                : `${preset.maxSizeMb || (preset.maxSizeKb ? Math.round(preset.maxSizeKb / 1024) : 10)} MB`}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Tab 1: Smart Target Solver */}
               {activeTab === 'target' && (
